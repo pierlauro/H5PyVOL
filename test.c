@@ -28,9 +28,9 @@ int main(){
 	dataset = H5VL_python_dataset_create(group, 0, "dataset0", 0, 0, 0, 0);
 	int *buffer = (int *)calloc(sizeof(int), BUFFER_SIZE);
 	fill_array(buffer, 16);
-	H5VL_python_dataset_write(dataset, 0, 0, 0, 0, 0, buffer, 0);
+	H5VL_python_dataset_write(dataset, 0, 0, 0, 0, buffer, 0);
 	int *dataset_buffer;
-	H5VL_python_dataset_read(dataset, 0, 0, 0, 0, 0, &dataset_buffer, 0);
+	H5VL_python_dataset_read(dataset, 0, 0, 0, 0, &dataset_buffer, 0);
 	check_array(dataset_buffer, 16);
 	
 	py_finalize();

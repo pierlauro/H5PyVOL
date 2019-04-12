@@ -144,21 +144,21 @@ void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
 	return ret;
 }
 
-herr_t H5VL_python_dataset_read(void *dset, hid_t connector_id, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t plist_id, void *buf, void **req){
+herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, void *buf, void **req){
 	char *method_name = "H5VL_python_dataset_read";
-	PyArrayObject* array = PyObject_CallMethod(dset, method_name, "llllll", connector_id, mem_type_id, mem_space_id, file_space_id, plist_id, req);
+	PyArrayObject* array = (PyArrayObject *)PyObject_CallMethod(dset, method_name, "lllll", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req);
 	PyErr_Print();
 	int **p = (int**)buf;
-	*p = array->data;
+	*p = (npy_intp *)array->data;
 	return 1;
 }
 
-herr_t H5VL_python_dataset_write(void *dset, hid_t connector_id, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t plist_id, const void *buf, void **req){
+herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void *buf, void **req){
 	const npy_intp buffer_size[] = {BUFFER_SIZE};
 	char *method_name = "H5VL_python_dataset_write";
 	import_array();
 	PyObject* array = PyArray_SimpleNewFromData(1, buffer_size, NPY_INT32, buf);
-	PyObject *ret = PyObject_CallMethod(dset, method_name, "lllllOl", connector_id, mem_type_id, mem_space_id, file_space_id, plist_id, array, req);
+	PyObject *ret = PyObject_CallMethod(dset, method_name, "llllOl", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, array, req);
 	PyErr_Print();
 	return 1;
 }

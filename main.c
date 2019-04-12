@@ -25,6 +25,15 @@ int main(){
 
 	hid_t dataset_id = H5Dcreate(group_id, "DATASET", H5T_NATIVE_INT, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
+	int *buffer_write = (int *)calloc(sizeof(int), BUFFER_SIZE);
+	buffer_write[1] = 1;
+	buffer_write[2] = 2;
+	buffer_write[15] = 15;
+	H5Dwrite(dataset_id, H5T_NATIVE_INT, H5S_ALL, space, H5P_DEFAULT, buffer_write);
+
+	int *buffer_read;
+	H5Dread(dataset_id, H5T_NATIVE_INT, H5S_ALL, space, H5P_DEFAULT, &buffer_read);
+
 	H5Dclose(dataset_id);
 	H5Gclose(group_id);
 	H5Fclose(file_id);

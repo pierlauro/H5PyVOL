@@ -3,11 +3,11 @@ class Dataset():
 		self.name = name
 		self.array = array
 
-	def H5VL_python_dataset_read(self, connector_id, mem_type_id, mem_space_id, file_space_id, plist_id, req):
+	def H5VL_python_dataset_read(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req):
 		print('Reading dataset ' + self.name + ' = ' + str(self.array))
-		return self.array		
+		return self.array
 
-	def H5VL_python_dataset_write(self, connector_id, mem_type_id, mem_space_id, file_space_id, plist_id, buf, req):
+	def H5VL_python_dataset_write(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, buf, req):
 		print('Writing dataset ' + self.name + ' = ' + str(buf))
 		self.array = buf
 
