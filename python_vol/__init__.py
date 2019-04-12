@@ -16,8 +16,8 @@ class Group():
 		self.name = name
 		self.groups = {}
 		self.datasets = {}
-		
-	def H5VL_python_dataset_create(self, loc_params, connector_id, name, dcpl_id, dapl_id, dxpl_id, req):
+
+	def H5VL_python_dataset_create(self, loc_params, name, dcpl_id, dapl_id, dxpl_id, req):
 		print('Creating dataset ' + name)
 		dataset = Dataset(name, None)
 		self.datasets[name] = dataset
@@ -28,7 +28,13 @@ class File():
 		self.name = name
 		self.groups = {'/': Group('/')}
 
-	def H5VL_python_group_open(self, loc_params, connector_id, name, gapl_id, dxpl_id, req):
+	def H5VL_python_group_create(self, loc_params, name, gcpl_id, gapl_id, dxpl_id, req):
+		print('Creating group ' + name)
+		group = Group(name)
+		self.groups[name] = group
+		return group
+
+	def H5VL_python_group_open(self, name, flags, fapl_id, dxpl_id, req):
 		print('Opening group ' + name)
 		return self.groups[name]
 

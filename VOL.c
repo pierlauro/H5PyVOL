@@ -40,7 +40,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 		NULL,			/* get		*/
 		NULL,			/* specific	 */
 		NULL,			/* optional	 */
-		NULL			/* close		*/
+		H5VL_python_dataset_close			/* close		*/
 	},
 	{ /* datatype_cls */
 		NULL,			/* commit	 */
@@ -59,12 +59,12 @@ const H5VL_class_t H5VL_python_cls_g = {
 		H5VL_python_file_close			/* close		*/
 	},
 	{ /* group_cls */
-		NULL,			/* create	 */
-		H5VL_python_group_open,			/* open		 */
+		H5VL_python_group_create,			/* create	 */
+		NULL,			/* open		 */
 		NULL,			/* get		*/
 		NULL,			/* specific	 */
 		NULL,			/* optional	 */
-		NULL			/* close		*/
+		H5VL_python_group_close			/* close		*/
 	},
 	{ /* link_cls */
 		NULL,			/* create	 */
@@ -108,19 +108,35 @@ herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req){
 	return 1; // TODO fill
 }
 
-void* H5VL_python_group_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id, const char *name, hid_t gapl_id, hid_t dxpl_id, void **req){
-	char *method_name = "H5VL_python_group_open";
-	PyObject *ret = PyObject_CallMethod(obj, method_name, "llslll", loc_params, connector_id, name, gapl_id, dxpl_id, req);
+void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req){
+	char *method_name = "H5VL_python_group_create";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, gcpl_id, gapl_id, dxpl_id, req);
 	PyErr_Print();
 	if(ret == NULL){
 		return NULL;
 	}
 	return ret;
 }
+/*
+void* H5VL_python_group_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req){
+	printf("OPENING GROUP");
+	char *method_name = "H5VL_python_group_open";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "sllll", flags, fapl_id, dxpl_id, req);
+	PyErr_Print();
+	if(ret == NULL){
+		return NULL;
+	}
+	return ret;
+}
+*/
 
-void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req){
+herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req){
+	return 1; // TODO fill
+}
+
+void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_dataset_create";
-	PyObject *ret = PyObject_CallMethod(obj, method_name, "llsllll", loc_params, connector_id, name, dcpl_id, dapl_id, dxpl_id, req);
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, dcpl_id, dapl_id, dxpl_id, req);
 	PyErr_Print();
 	if(ret == NULL){
 		return NULL;
@@ -144,6 +160,10 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t connector_id, hid_t mem_type_
 	PyObject* array = PyArray_SimpleNewFromData(1, buffer_size, NPY_INT32, buf);
 	PyObject *ret = PyObject_CallMethod(dset, method_name, "lllllOl", connector_id, mem_type_id, mem_space_id, file_space_id, plist_id, array, req);
 	PyErr_Print();
+	return 1;
+}
+
+herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req){
 	return 1;
 }
 

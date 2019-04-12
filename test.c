@@ -24,8 +24,8 @@ int main(){
 	
 	PyObject *file, *group, *dataset;
 	file = H5VL_python_file_create("aaa", 0, 0, 0, 0, 0);
-	group = H5VL_python_group_open(file, 0, 0, "/", 0, 0, 0);
-	dataset = H5VL_python_dataset_create(group, 0, 0, "dataset0", 0, 0, 0, 0);
+	group = H5VL_python_group_create(file, 0, "group", 0, 0, 0, 0);
+	dataset = H5VL_python_dataset_create(group, 0, "dataset0", 0, 0, 0, 0);
 	int *buffer = (int *)calloc(sizeof(int), BUFFER_SIZE);
 	fill_array(buffer, 16);
 	H5VL_python_dataset_write(dataset, 0, 0, 0, 0, 0, buffer, 0);
