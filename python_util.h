@@ -1,3 +1,6 @@
+#include <Python.h>
+#include <numpy/arrayobject.h>
+
 void py_initialize();
 void py_finalize();
 PyObject* py_import_module(const char *name);
