@@ -24,9 +24,4 @@ extern herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_
 extern herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void * buf, void **req);
 extern herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req);
 
-PyObject* VOL_class; // TODO move
-
-static void initialize_vol_class(const char* module_name, const char* class_name){
-	PyObject* module = py_import_module(module_name);
-	VOL_class = py_get_class(module, class_name);
-}
+extern void initialize_vol_class(const char* module_name, const char* class_name);

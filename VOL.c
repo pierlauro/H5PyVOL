@@ -1,5 +1,7 @@
 #include "VOL.h"
 
+PyObject* VOL_class;
+
 /* Generic Python VOL connector class struct */
 const H5VL_class_t H5VL_python_cls_g = {
 	0,			/* version	*/
@@ -146,18 +148,18 @@ void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
 
 herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, void *buf, void **req){
 	char *method_name = "H5VL_python_dataset_read";
-	PyArrayObject* array = (PyArrayObject *)PyObject_CallMethod(dset, method_name, "lllll", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req);
+	PyArrayObject_fields* array = (PyArrayObject_fields *)PyObject_CallMethod(dset, method_name, "lllll", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req);
 	PyErr_Print();
-	int **p = (int**)buf;
+	npy_intp **p = (npy_intp**)buf;
 	*p = (npy_intp *)array->data;
 	return 1;
 }
 
 herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void *buf, void **req){
-	const npy_intp buffer_size[] = {BUFFER_SIZE};
+	npy_intp buffer_size[] = {BUFFER_SIZE};
 	char *method_name = "H5VL_python_dataset_write";
 	import_array();
-	PyObject* array = PyArray_SimpleNewFromData(1, buffer_size, NPY_INT32, buf);
+	PyObject* array = PyArray_SimpleNewFromData(1, buffer_size, NPY_INT32, (void*) buf);
 	PyObject *ret = PyObject_CallMethod(dset, method_name, "llllOl", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, array, req);
 	PyErr_Print();
 	return 1;
@@ -165,5 +167,10 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_
 
 herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req){
 	return 1;
+}
+
+void initialize_vol_class(const char* module_name, const char* class_name){
+	PyObject* module = py_import_module(module_name);
+	VOL_class = py_get_class(module, class_name);
 }
 
