@@ -8,7 +8,7 @@ copy-python:
 	cp -r src/python_vol target/
 
 main:
-	gcc -I/usr/include/python3.6m -I/usr/include/mpich src/python_util.c src/VOL.c src/main.c -lpython3.6m -lhdf5 -o target/main
+	gcc -I/usr/include/python3.6m -I/usr/include/mpich -Isrc src/python_util.c src/VOL.c examples/vol.c -lpython3.6m -lhdf5 -o target/vol.out
 
 tests:
-	gcc -I/usr/include/python3.6m -I/usr/include/mpich src/python_util.c src/VOL.c src/test.c -lpython3.6m -lhdf5 -o target/tests
+	gcc -I/usr/include/python3.6m -I/usr/include/mpich -Isrc src/python_util.c src/VOL.c examples/c-py.c -lpython3.6m -lhdf5 -o target/c-py.out
