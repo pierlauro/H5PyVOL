@@ -132,18 +132,6 @@ void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, c
 	}
 	return ret;
 }
-/*
-void* H5VL_python_group_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req){
-	printf("OPENING GROUP");
-	char *method_name = "H5VL_python_group_open";
-	PyObject *ret = PyObject_CallMethod(obj, method_name, "sllll", flags, fapl_id, dxpl_id, req);
-	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
-	return ret;
-}
-*/
 
 herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req){
 	return H5VL_python_object_close(grp, dxpl_id, req);
