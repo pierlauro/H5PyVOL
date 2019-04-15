@@ -17,7 +17,6 @@ extern herr_t H5VL_python_object_close(void *grp, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_attribute_close(void *attr, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_datatype_close(void *dt, hid_t dxpl_id, void **req);
 
-
 extern void* H5VL_python_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req);
 

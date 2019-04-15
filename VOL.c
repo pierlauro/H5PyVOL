@@ -11,7 +11,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 	NULL,			/* initialize */
 	NULL,			/* terminate	*/
 	{ /* info_cls */
-		(size_t)1,			/* info size	*/	// TODO adjust to proper size
+		(size_t)sizeof(H5VL_class_t),	/* info size	*/	// TODO adjust to proper size
 		NULL,			/* info copy	*/
 		NULL,			/* info compare */
 		NULL,			/* info free	*/

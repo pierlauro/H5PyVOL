@@ -1,4 +1,6 @@
-class H5Object():
+from .abstract import H5Object, H5Dataset, H5Group, H5File, H5VOL
+
+class Object(H5Object):
 	def __init__(self, name: str):
 		self.name: str = name
 		self.open: bool = True
@@ -6,9 +8,9 @@ class H5Object():
 	def H5VL_python_object_close(self, dxpl_id, req):
 		self.open = False
 
-class Dataset(H5Object):
+class Dataset(H5Dataset, Object):
 	def __init__(self, name: str, array: list):
-		H5Object.__init__(self, name)
+		Object.__init__(self, name)
 		self.array: list = array
 
 	def H5VL_python_dataset_read(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req):
@@ -19,9 +21,9 @@ class Dataset(H5Object):
 		print('Writing dataset ' + self.name + ' = ' + str(buf))
 		self.array = buf
 
-class Group(H5Object):
+class Group(H5Group, Object):
 	def __init__(self, name: str):
-		H5Object.__init__(self, name)
+		Object.__init__(self, name)
 		self.groups: dict = {}
 		self.datasets: dict = {}
 
@@ -31,9 +33,9 @@ class Group(H5Object):
 		self.datasets[name] = dataset
 		return dataset
 
-class File(H5Object):
+class File(H5File, Object):
 	def __init__(self, name: str):
-		H5Object.__init__(self, name)
+		Object.__init__(self, name)
 		self.groups: dict = {'/': Group('/')}
 
 	def H5VL_python_group_create(self, loc_params, name: str, gcpl_id, gapl_id, dxpl_id, req):
@@ -46,7 +48,7 @@ class File(H5Object):
 		print('Opening group ' + name)
 		return self.groups[name]
 
-class VOL():
+class VOL(H5VOL):
 	def __init__(self):
 		self.files: dict = {}
 
