@@ -15,7 +15,7 @@ Once implemented a python VOL, it is possible to bind the HDF library on it by s
 ## Compile and try example
 The example is built upon the [hyperslab_updates](https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse?at=refs%2Fheads%2Fhyperslab_updates) branch of HDF5.
 
-A precompiled version can be used by building the attached [https://github.com/pierlauro/PyVOL/blob/master/Dockerfile](Dockerfile) (shipped with HDF5, MPI, Python3 and NumPy). 
+A precompiled version can be used by building the attached [Dockefile](https://github.com/pierlauro/PyVOL/blob/master/Dockerfile) (shipped with HDF5, MPI, Python3 and NumPy). 
 
 - With Cmake
 ```bash
