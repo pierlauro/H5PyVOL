@@ -29,11 +29,11 @@ add_library(pyvol SHARED)
 
 target_sources(pyvol
 	PUBLIC
-		${CMAKE_CURRENT_LIST_DIR}/VOL.h
+		${CMAKE_CURRENT_LIST_DIR}/src/VOL.h
 	PRIVATE
-		${CMAKE_CURRENT_LIST_DIR}/VOL.c
-		${CMAKE_CURRENT_LIST_DIR}/python_util.h
-		${CMAKE_CURRENT_LIST_DIR}/python_util.c
+		${CMAKE_CURRENT_LIST_DIR}/src/VOL.c
+		${CMAKE_CURRENT_LIST_DIR}/src/python_util.h
+		${CMAKE_CURRENT_LIST_DIR}/src/python_util.c
 )
 
 target_include_directories(pyvol
@@ -52,7 +52,7 @@ target_link_libraries(pyvol
 		${PYTHON_LIBRARIES}
 )
 
-file(COPY python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 install(TARGETS pyvol
 	RUNTIME DESTINATION bin
@@ -60,32 +60,34 @@ install(TARGETS pyvol
 	ARCHIVE DESTINATION lib/static
 )
 
-add_executable(main main.c)
+add_executable(vol examples/vol.c)
 
-target_link_libraries(main
+target_link_libraries(vol
 	PUBLIC
 		pyvol
 	PRIVATE
 		${PYTHON_LIBRARIES}
 )
 
-target_include_directories(main
+target_include_directories(vol
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
 		${PYTHON_INCLUDE_DIRS}
+		${CMAKE_CURRENT_LIST_DIR}/src/
 )
 
-add_executable(tests test.c)
+add_executable(c-py examples/c-py.c)
 
-target_link_libraries(tests
+target_link_libraries(c-py
 	PUBLIC
 		pyvol
 	PRIVATE
 		${PYTHON_LIBRARIES}
 )
 
-target_include_directories(tests
+target_include_directories(c-py
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
 		${PYTHON_INCLUDE_DIRS}
+		${CMAKE_CURRENT_LIST_DIR}/src
 )
