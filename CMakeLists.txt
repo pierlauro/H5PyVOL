@@ -3,12 +3,14 @@ project(PyVOL)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/CMake)
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 ")
 
 message(${CMAKE_MODULE_PATH})
 
-set(HDF5_USE_STATIC_LIBRARIES TRUE)
+set(HDF5_USE_STATIC_LIBRARIES FALSE)
 set(HDF5_PREFER_PARALLEL TRUE)
 find_package(HDF5 REQUIRED C)
 if(NOT ${HDF5_IS_PARALLEL})
@@ -35,15 +37,55 @@ target_sources(pyvol
 )
 
 target_include_directories(pyvol
-	PRIVATE
+	PUBLIC
 		${HDF5_INCLUDE_DIRS}
+	PRIVATE
 		${PYTHON_INCLUDE_DIRS}
 		${PYTHON_NUMPY_INCLUDE_DIR}
 )
 
 target_link_libraries(pyvol
-	PRIVATE
+	PUBLIC
 		MPI::MPI_C
-		${HDF5_INCLUDE_LIBRARIES}
+		${HDF5_LIBRARIES}
+	PRIVATE
 		${PYTHON_LIBRARIES}
+)
+
+file(COPY python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+install(TARGETS pyvol
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib/static
+)
+
+add_executable(main main.c)
+
+target_link_libraries(main
+	PUBLIC
+		pyvol
+	PRIVATE
+		${PYTHON_LIBRARIES}
+)
+
+target_include_directories(main
+	PUBLIC
+		${HDF5_INCLUDE_DIRS}
+		${PYTHON_INCLUDE_DIRS}
+)
+
+add_executable(tests test.c)
+
+target_link_libraries(tests
+	PUBLIC
+		pyvol
+	PRIVATE
+		${PYTHON_LIBRARIES}
+)
+
+target_include_directories(tests
+	PUBLIC
+		${HDF5_INCLUDE_DIRS}
+		${PYTHON_INCLUDE_DIRS}
 )
