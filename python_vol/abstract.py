@@ -28,7 +28,7 @@ class H5Group(H5Object, ABC):
 		pass
 	
 	@abstractmethod
-	def H5VL_python_dataset_create(self, loc_params, name: str, dcpl_id, dapl_id, dxpl_id, req):
+	def H5VL_python_dataset_create(self, loc_params, name: str, dcpl_id, dapl_id, dxpl_id, req) -> H5Dataset:
 		pass
 
 class H5File(H5Object, ABC):
@@ -37,10 +37,10 @@ class H5File(H5Object, ABC):
 		pass
 	
 	@abstractmethod
-	def H5VL_python_group_create(self, loc_params, name: str, gcpl_id, gapl_id, dxpl_id, req):
+	def H5VL_python_group_create(self, loc_params, name: str, gcpl_id, gapl_id, dxpl_id, req) -> H5Group:
 		pass
 
-	def H5VL_python_group_open(self, name: str, flags, fapl_id, dxpl_id, req):
+	def H5VL_python_group_open(self, name: str, flags, fapl_id, dxpl_id, req) -> H5Group:
 		pass
 
 class H5VOL(ABC):
@@ -49,5 +49,5 @@ class H5VOL(ABC):
 		pass
 
 	@abstractmethod
-	def H5VL_python_file_create(self, name: str, flags, fcpl_id, fapl_id, dxpl_id, req):
+	def H5VL_python_file_create (self, name: str, flags, fcpl_id, fapl_id, dxpl_id, req) -> H5File:
 		pass
