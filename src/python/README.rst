@@ -17,8 +17,12 @@ Usage
 Simply ``from cpyvol import *`` in your code and implement a concrete class for each of the provided abstract ones: ``H5VOL``, ``H5File``, ``H5Group``, ``H5Dataset``.
 
 
-Installing
-==========
+Install from source
+======================
+``python3 setup.py install``
+
+Install from pypi
+====================
 ``pip install cpyvol`` - no dependencies needed.
 
 ======
