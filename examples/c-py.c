@@ -22,6 +22,8 @@ int main(){
 	char *class_name = "VOL"; // TODO move outside
 	initialize_vol_class(module_name, class_name);
 	
+	const int BUFFER_SIZE = 16;
+
 	PyObject *file, *group, *dataset;
 	file = H5VL_python_file_create("aaa", 0, 0, 0, 0, 0);
 	group = H5VL_python_group_create(file, 0, "group", 0, 0, 0, 0);

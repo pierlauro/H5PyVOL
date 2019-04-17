@@ -157,11 +157,14 @@ herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_i
 }
 
 herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void *buf, void **req){
-	// TODO custom dimensions
-	npy_intp buffer_size[] = {BUFFER_SIZE};
-	char *method_name = "H5VL_python_dataset_write";
+	int rank = H5Sget_simple_extent_ndims(mem_space_id);
+	hsize_t *dims = malloc(rank * sizeof(int)), *max_dims = malloc(rank * sizeof(int));
+	H5Sget_simple_extent_dims(mem_space_id, dims, max_dims);
+
 	import_array();
-	PyObject* array = PyArray_SimpleNewFromData(1, buffer_size, get_numpy_type(mem_type_id), (void*) buf);
+	PyObject* array = PyArray_SimpleNewFromData(rank, (npy_intp*)max_dims, get_numpy_type(mem_type_id), (void*) buf);
+
+	char *method_name = "H5VL_python_dataset_write";
 	PyObject *ret = PyObject_CallMethod(dset, method_name, "llllOl", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, array, req);
 	PyErr_Print();
 	return 1;

@@ -20,7 +20,8 @@ int main(){
 	hid_t file_id = H5Fcreate("FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc);
 	hid_t group_id = H5Gcreate(file_id, "/GROUP", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
-	hsize_t dims[1] = {16};
+	const int BUFFER_SIZE = 16;
+	hsize_t dims[1] = {BUFFER_SIZE};
 	hid_t space = H5Screate_simple (1, dims, NULL);
 
 	hid_t dataset_id = H5Dcreate(group_id, "DATASET", H5T_NATIVE_INT, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -29,10 +30,10 @@ int main(){
 	buffer_write[1] = 1;
 	buffer_write[2] = 2;
 	buffer_write[15] = 15;
-	H5Dwrite(dataset_id, H5T_NATIVE_INT, H5S_ALL, space, H5P_DEFAULT, buffer_write);
+	H5Dwrite(dataset_id, H5T_NATIVE_INT, space, space, H5P_DEFAULT, buffer_write);
 
 	int *buffer_read;
-	H5Dread(dataset_id, H5T_NATIVE_INT, H5S_ALL, space, H5P_DEFAULT, &buffer_read);
+	H5Dread(dataset_id, H5T_NATIVE_INT, space, space, H5P_DEFAULT, &buffer_read);
 
 	H5Dclose(dataset_id);
 	H5Gclose(group_id);

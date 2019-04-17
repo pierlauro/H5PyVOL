@@ -1,11 +1,10 @@
 #include <mpi.h>
 
+#include <H5Spublic.h>
 #include <H5VLpublic.h>
 
 #include "datatypes_util.h"
 #include "python_util.h"
-
-#define BUFFER_SIZE 16
 
 typedef struct H5VL_python_fapl_t {
     MPI_Comm    comm; /*communicator*/
