@@ -14,7 +14,7 @@ A simple library providing an abstract data model to implement Python virtual ob
 Usage
 =====
 
-Simply ``from cpyvol import *`` in your code and implement a concrete class for each of the provided abstract ones: ``H5VOL``, ``H5File``, ``H5Group``, ``H5Dataset``.
+Simply ``from CPyVOL import *`` in your code and implement a concrete class for each of the provided abstract ones: ``H5VOL``, ``H5File``, ``H5Group``, ``H5Dataset``.
 
 
 Install from source
