@@ -34,6 +34,8 @@ target_sources(pyvol
 		${CMAKE_CURRENT_LIST_DIR}/src/VOL.c
 		${CMAKE_CURRENT_LIST_DIR}/src/python_util.h
 		${CMAKE_CURRENT_LIST_DIR}/src/python_util.c
+		${CMAKE_CURRENT_LIST_DIR}/src/datatypes_util.h
+		${CMAKE_CURRENT_LIST_DIR}/src/datatypes_util.c
 )
 
 target_include_directories(pyvol

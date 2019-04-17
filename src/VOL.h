@@ -2,6 +2,7 @@
 
 #include <H5VLpublic.h>
 
+#include "datatypes_util.h"
 #include "python_util.h"
 
 #define BUFFER_SIZE 16
