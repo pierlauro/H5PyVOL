@@ -2,5 +2,5 @@
 *.out
 build/
 target/
-src/python/CPyVOL.egg-info/
+src/python/*.egg-info/
 src/python/dist/

@@ -1,8 +1,8 @@
 # PyVOL
 
-This is an embryonic prototype of generic Python virtual object layer (VOL) for HDF5. It is providing some easily implementable APIs to create new python VOLs.
+This is a prototype of generic Python virtual object layer (VOL) for HDF5. It is providing some easily implementable APIs to create new python VOLs.
 
-NB: at moment, not all VOL functions are implemented.
+NB: at moment, not all VOL functions are implemented. (All the capabilities of [sci-swift](https://github.com/valiantljk/sci-swift) are currently supported, it is in the roadmap to implement all the functionalities).
 
 ### Python part (module [CPyVOL](https://github.com/pierlauro/PyVOL/tree/master/src/python))
 In order to develop an easily pluggable python VOL, an [abstract data model](https://github.com/pierlauro/PyVOL/tree/master/src/python/CPyVOL/__init__.py) and one [basic example implementation](https://github.com/pierlauro/PyVOL/tree/master/examples/python_vol/__init__.py) are provided.
