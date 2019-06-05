@@ -3,10 +3,15 @@
 #include <H5Ppublic.h>
 #include <H5Spublic.h>
 
-int main(){
+int main(int argc, char *argv[]){
+	if(argc != 3){
+		printf("Please, specify python module and vol class.\nUsage: %s <python_VOL_module> <python_VOL_class>\n", argv[0]);
+		exit(1);
+	}
+
 	py_initialize();
-	const char *module_name = "python_vol"; // TODO move outside
-	char *class_name = "VOL"; // TODO move outside
+	const char *module_name = argv[1];
+	const char *class_name = argv[2];
 	initialize_vol_class(module_name, class_name);
 	
 	hid_t fapl = H5Pcreate(H5P_FILE_ACCESS);

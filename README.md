@@ -31,12 +31,12 @@ mkdir build
 cd build
 cmake ..
 make
-./vol
+./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
 ```
 
 - With Makefile (NB: review include paths in the Makefile)
-```
+```bash
 make
 cd build
-./vol
+./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
 ```

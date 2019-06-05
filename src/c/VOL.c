@@ -175,6 +175,7 @@ herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req){
 }
 
 void initialize_vol_class(const char* module_name, const char* class_name){
+	// TODO check that class is instance of CPyVOL's VOL
 	PyObject* module = py_import_module(module_name);
 	VOL_class = py_get_class(module, class_name);
 }
