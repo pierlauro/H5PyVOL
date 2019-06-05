@@ -5,13 +5,13 @@ from os import path
 setup(
 	name = 'CPyVOL',
 
-	version = '0.1',
+	version = '0.1.1',
 
 	description = 'Abstract data model for HDF5 Python virtual object layers',
 
 	author = 'pierlauro',
 
-	url = 'https://github.com/pierlauro/CPyVOL',
+	url = 'https://github.com/pierlauro/PyVOL',
 
 	classifiers = [
 		'Development Status :: 5 - Production/Stable',
@@ -29,7 +29,7 @@ setup(
 	license = 'GNU Affero General Public License v3.0',
 
 	project_urls = {
-		'Bug Tracker': 'https://github.com/pierlauro/CPyVOL/issues',
-		'Source': 'https://github.com/pierlauro/CPyVOL',
+		'Bug Tracker': 'https://github.com/pierlauro/PyVOL/issues',
+		'Source': 'https://github.com/pierlauro/PyVOL',
 	}
 )

@@ -1,0 +1,35 @@
+FROM ubuntu:18.04
+
+ARG BRANCH=hyperslab_updates
+
+RUN apt-get update
+
+# Install utilities to get the repository
+RUN apt-get install -y wget unzip
+
+# Install dependencies to build/run hdf lib
+RUN apt-get install -y gcc autoconf libtool-bin make g++
+
+# Install mpi
+RUN apt-get install mpich
+
+# Downloading specific branch
+RUN wget https://github.com/live-clones/hdf5/archive/$BRANCH.zip -O branch.zip && unzip branch.zip
+RUN mv hdf5-$BRANCH hdf5
+
+# Preparing hdf5 folders
+RUN mkdir hdf5/build
+WORKDIR hdf5
+
+# Configuring, compiling and installing hdf lib
+RUN ./autogen.sh
+
+RUN ./configure --prefix=$PWD/build #--enable-parallel
+
+RUN make -j `nproc` && make install
+
+WORKDIR build
+
+# Moving built libraries to /usr
+RUN for i in $(ls); do cp -R $i/* /usr/$i; done
+
