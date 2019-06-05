@@ -15,9 +15,15 @@ Once implemented a python VOL, it is possible to bind the HDF library on it by s
 
 ## Compile and try example
 
-By following the instuctions in the [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) it is possible to build a container for testing purposes (shipped with HDF5, MPI, Python3 and NumPy). 
+Before running the example, it is needed to install:
+- HDF5 (version hyperslabs_updates)
+- MPI
+- Python3
+- NumPy
 
-Before running the example, it is needed to install the CPyVol module by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python)
+In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) it is possible to build a container for testing purposes (shipped with HDF5, MPI, Python3 and NumPy). 
+
+In both cases (local or containerized environment), the CPyVol module needs to be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
 
 - With Cmake
 ```bash
