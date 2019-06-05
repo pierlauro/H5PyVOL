@@ -11,7 +11,7 @@ RUN apt-get install -y wget unzip
 RUN apt-get install -y gcc autoconf libtool-bin make g++
 
 # Install mpi
-RUN apt-get install mpich
+RUN apt-get install -y mpich
 
 # Downloading specific branch
 RUN wget https://github.com/live-clones/hdf5/archive/$BRANCH.zip -O branch.zip && unzip branch.zip

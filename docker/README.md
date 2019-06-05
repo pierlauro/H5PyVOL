@@ -9,8 +9,8 @@ Execute the following commands to build the containers:
 
 ```bash
 docker build --no-cache -t hdf5-hyperslabs_updates -f Dockerfile-hdf5_hyperslab_updates .
-
-docker build --no-cache -t pyvol .
+cd .. # Change directory needed to copy local repository
+docker build --no-cache -f docker/Dockerfile -t pyvol .
 ```
 
 ### Use PyVol container
