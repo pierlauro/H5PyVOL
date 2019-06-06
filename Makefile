@@ -1,4 +1,4 @@
-all: clean copy-python main cpy copy-swift
+all: clean copy-python main cpy copy-swift copy-rados
 
 clean:
 	rm -rf build/*
@@ -16,3 +16,7 @@ cpy:
 copy-swift:
 	mkdir -p build
 	cp -r object-stores/swift/swift_vol build/
+
+copy-rados:
+	mkdir -p build
+	cp -r object-stores/rados/rados_vol build/
