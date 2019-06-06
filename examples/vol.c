@@ -1,7 +1,10 @@
 #include "VOL.h"
+#include "timing.h"
 
 #include <H5Ppublic.h>
 #include <H5Spublic.h>
+
+void write_read(int num_datasets, hid_t acc);
 
 int main(int argc, char *argv[]){
 	if(argc != 3){
@@ -22,6 +25,13 @@ int main(int argc, char *argv[]){
 	fa.info = MPI_INFO_NULL;
 	H5Pset_vol(acc, vol_id, &fapl);
 
+	timing(write_read(1, acc));
+
+	py_finalize();
+	return 0;
+}
+
+void write_read(int num_datasets, hid_t acc){
 	hid_t file_id = H5Fcreate("FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc);
 	hid_t group_id = H5Gcreate(file_id, "/GROUP", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
@@ -43,8 +53,4 @@ int main(int argc, char *argv[]){
 	H5Dclose(dataset_id);
 	H5Gclose(group_id);
 	H5Fclose(file_id);
-
-	py_finalize();
-	return 0;
 }
-
