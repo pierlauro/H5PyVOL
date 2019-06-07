@@ -151,8 +151,8 @@ herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_i
 	char *method_name = "H5VL_python_dataset_read";
 	PyArrayObject_fields* array = (PyArrayObject_fields *)PyObject_CallMethod(dset, method_name, "lllll", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req);
 	PyErr_Print();
-	int nbytes = PyArray_NBYTES((PyArrayObject *)array);
-	memcpy(&buf[0], &array->data[0], nbytes); // This memcpy should be avoided
+	long *p = (long*)buf;
+	p[0] = (long)&(array->data[0]); // NO memcpy, just passing the pointer
 	return 1;
 }
 
