@@ -1,4 +1,4 @@
-all: clean copy-python main cpy copy-swift copy-rados
+all: clean copy-python main cpy copy-swift copy-rados copy-dataclay
 
 clean:
 	rm -rf build/*
@@ -20,3 +20,7 @@ copy-swift:
 copy-rados:
 	mkdir -p build
 	cp -r object-stores/rados/rados_vol build/
+
+copy-dataclay:
+	mkdir -p build
+	cp -r object-stores/dataClay/dataClay_vol build/
