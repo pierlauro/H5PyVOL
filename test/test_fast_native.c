@@ -48,11 +48,11 @@ void write_read(int num_datasets, hid_t acc){
 
 	// Initialize dataset names and fill datasets with their index
 	for(int i = 0; i < num_datasets; i++){
-		snprintf(dataset_names[i], names_size, "DATASET%d", i);
+		//snprintf(dataset_names[i], names_size, "DATASET%d", i);
 		for(int j = 0; j < BUFFER_SIZE; j++){
 			datasets[i][j] = i;
 		}
-		printf("\n");
+		//printf("\n");
 	}
 
 	hid_t file_id = H5Fcreate("FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc);
