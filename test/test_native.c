@@ -48,16 +48,15 @@ void write_read(int num_datasets, hid_t acc){
 
 	// Initialize dataset names and fill datasets with their index
 	for(int i = 0; i < num_datasets; i++){
-		//snprintf(dataset_names[i], names_size, "DATASET%d", i);
+		snprintf(dataset_names[i], names_size, "DATASET%d", i);
 		for(int j = 0; j < BUFFER_SIZE; j++){
 			datasets[i][j] = i;
 		}
-		//printf("\n");
 	}
 
-	hid_t file_id = H5Fcreate("FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc);
+	hid_t file_id = H5Fcreate("test_FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc);
 	hid_t acc2 = H5Pcreate(H5P_FILE_ACCESS);
-	hid_t file_id2 = H5Fcreate("FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc2);
+	hid_t file_id2 = H5Fcreate("test_FILENAME.h5", H5F_ACC_TRUNC, H5P_DEFAULT, acc2);
 	hid_t group_id = H5Gcreate(file_id, "/GROUP", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	hid_t group_id2 = H5Gcreate(file_id2, "/GROUP", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
