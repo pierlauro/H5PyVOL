@@ -1,0 +1,6 @@
+FROM pyvol
+
+RUN pip3 install dataclay==2.0.dev7
+
+ENV DATACLAYSESSIONCONFIG=/PyVOL/object-stores/dataClay/session.properties
+

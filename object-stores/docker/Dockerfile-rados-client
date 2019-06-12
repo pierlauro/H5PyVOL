@@ -1,0 +1,7 @@
+FROM pyvol
+
+# Rados client dependencies
+RUN apt-get install -y python3-rados # python librados
+
+RUN apt-get install -y ceph 	# cmd rados client
+
