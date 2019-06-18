@@ -21,7 +21,7 @@ Before running the example, it is needed to install:
 - Python3
 - NumPy
 
-In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) it is possible to build a container for testing purposes (shipped with HDF5, MPI, Python3 and NumPy). 
+In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) it is possible to build a container for testing purposes (shipped with HDF5, MPI, Python3 and NumPy). All the project's docker images - including one client image for each supported object store - can be built by executing the script [docker-build.sh](https://github.com/pierlauro/PyVOL/blob/master/docker-build.sh).
 
 In both cases (local or containerized environment), the CPyVol module needs to be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
 
