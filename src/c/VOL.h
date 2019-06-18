@@ -28,6 +28,7 @@ extern void* H5VL_python_group_open(void *obj, const H5VL_loc_params_t *loc_para
 extern herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req);
 
 extern void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req);
+extern void* H5VL_python_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dapl_id, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, void * buf, void **req);
 extern herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void * buf, void **req);
 extern herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req);

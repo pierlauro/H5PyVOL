@@ -32,6 +32,12 @@ class Group(H5Group, Object):
 		self.datasets[name] = dataset
 		return dataset
 
+	def H5VL_python_dataset_open(self, loc_params, name: str, dapl_id, dxpl_id, req) -> Dataset:
+		print('Opening dataset ' + name)
+		if name in self.datasets:
+			return self.datasets[name]
+		return self.H5VL_python_dataset_create(loc_params, name, 0, dapl_id, dxpl_id, req)
+
 class File(H5File, Object):
 	def __init__(self, name: str):
 		Object.__init__(self, name)

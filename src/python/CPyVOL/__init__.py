@@ -31,6 +31,10 @@ class H5Group(H5Object, ABC):
 	def H5VL_python_dataset_create(self, loc_params, name: str, dcpl_id, dapl_id, dxpl_id, req) -> H5Dataset:
 		pass
 
+	@abstractmethod
+	def H5VL_python_dataset_open(self, loc_params, name: str, dapl_id, dxpl_id, req) -> H5Dataset:
+		pass
+
 class H5File(H5Object, ABC):
 	@abstractmethod
 	def __init__(self, name: str):

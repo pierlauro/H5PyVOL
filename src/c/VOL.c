@@ -36,7 +36,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 	},
 	{ /* dataset_cls */
 		H5VL_python_dataset_create,			/* create	 */
-		NULL,			/* open		 */
+		H5VL_python_dataset_open,			/* open		 */
 		H5VL_python_dataset_read,			/* read		 */
 		H5VL_python_dataset_write,			/* write		*/
 		NULL,			/* get		*/
@@ -160,6 +160,16 @@ herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req){
 void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_dataset_create";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, dcpl_id, dapl_id, dxpl_id, req);
+	PyErr_Print();
+	if(ret == NULL){
+		return NULL;
+	}
+	return ret;
+}
+
+void* H5VL_python_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dapl_id, hid_t dxpl_id, void **req){
+	char *method_name = "H5VL_python_dataset_open";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "lslll", loc_params, name, dapl_id, dxpl_id, req);
 	PyErr_Print();
 	if(ret == NULL){
 		return NULL;
