@@ -20,9 +20,11 @@ extern herr_t H5VL_python_attribute_close(void *attr, hid_t dxpl_id, void **req)
 extern herr_t H5VL_python_datatype_close(void *dt, hid_t dxpl_id, void **req);
 
 extern void* H5VL_python_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id, void **req);
+extern void* H5VL_python_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req);
 
 extern void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req);
+extern void* H5VL_python_group_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gapl_id, hid_t dxpl_id, void **req);
 extern herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req);
 
 extern void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req);

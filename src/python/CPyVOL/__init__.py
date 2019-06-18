@@ -40,7 +40,8 @@ class H5File(H5Object, ABC):
 	def H5VL_python_group_create(self, loc_params, name: str, gcpl_id, gapl_id, dxpl_id, req) -> H5Group:
 		pass
 
-	def H5VL_python_group_open(self, name: str, flags, fapl_id, dxpl_id, req) -> H5Group:
+	@abstractmethod
+	def H5VL_python_group_open(self, loc_params, name: str, gapl_id, dxpl_id, req) -> H5Group:
 		pass
 
 class H5VOL(ABC):
@@ -49,5 +50,9 @@ class H5VOL(ABC):
 		pass
 
 	@abstractmethod
-	def H5VL_python_file_create (self, name: str, flags, fcpl_id, fapl_id, dxpl_id, req) -> H5File:
+	def H5VL_python_file_create(self, name: str, flags, fcpl_id, fapl_id, dxpl_id, req) -> H5File:
+		pass
+
+	@abstractmethod
+	def H5VL_python_file_open(self, name: str, flags, fapl_id, dxpl_id, req) -> H5File:
 		pass

@@ -54,7 +54,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 	},
 	{ /* file_cls */
 		H5VL_python_file_create,			/* create	 */
-		NULL,			/* open		 */
+		H5VL_python_file_open,			/* open		 */
 		NULL,			/* get		*/
 		NULL,			/* specific	 */
 		NULL,			/* optional	 */
@@ -62,7 +62,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 	},
 	{ /* group_cls */
 		H5VL_python_group_create,			/* create	 */
-		NULL,			/* open		 */
+		H5VL_python_group_open,			/* open		 */
 		NULL,			/* get		*/
 		NULL,			/* specific	 */
 		NULL,			/* optional	 */
@@ -119,6 +119,16 @@ void* H5VL_python_file_create(const char *name, unsigned flags, hid_t fcpl_id, h
 	return ret;
 }
 
+void* H5VL_python_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req){
+	char *method_name = "H5VL_python_file_open";
+	PyObject *ret = PyObject_CallMethod(VOL_class, method_name, "sllll", name, flags, fapl_id, dxpl_id, req);
+	PyErr_Print();
+	if(ret == NULL){
+		return NULL;
+	}
+	return ret;
+}
+
 herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req){
 	return H5VL_python_object_close(file, dxpl_id, req);
 }
@@ -126,6 +136,16 @@ herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req){
 void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_group_create";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, gcpl_id, gapl_id, dxpl_id, req);
+	PyErr_Print();
+	if(ret == NULL){
+		return NULL;
+	}
+	return ret;
+}
+
+void* H5VL_python_group_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gapl_id, hid_t dxpl_id, void **req){
+	char *method_name = "H5VL_python_group_open";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "lslll", loc_params, name, gapl_id, dxpl_id, req);
 	PyErr_Print();
 	if(ret == NULL){
 		return NULL;

@@ -24,7 +24,6 @@ class Dataset(H5Dataset, Object):
 class Group(H5Group, Object):
 	def __init__(self, name: str):
 		Object.__init__(self, name)
-		self.groups: dict = {}
 		self.datasets: dict = {}
 
 	def H5VL_python_dataset_create(self, loc_params, name: str, dcpl_id, dapl_id, dxpl_id, req) -> Dataset:
@@ -44,9 +43,11 @@ class File(H5File, Object):
 		self.groups[name] = group
 		return group
 
-	def H5VL_python_group_open(self, name: str, flags, fapl_id, dxpl_id, req) -> Group:
+	def H5VL_python_group_open(self, loc_params, name: str, gapl_id, dxpl_id, req) -> Group:
 		print('Opening group ' + name)
-		return self.groups[name]
+		if name in self.groups:
+			return self.groups[name]
+		return self.H5VL_python_group_create(loc_params, name, 0, gapl_id, dxpl_id, req)
 
 class VOL(H5VOL):
 	def __init__(self):
@@ -57,3 +58,7 @@ class VOL(H5VOL):
 		new_file = File(name)
 		self.files[name] = new_file
 		return new_file
+
+	def H5VL_python_file_open(self, name: str, flags, fapl_id, dxpl_id, req) -> Group:
+		print('Opening file ' + name)
+		return self.files[name]
