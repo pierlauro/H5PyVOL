@@ -12,3 +12,7 @@ class DataClayVOL():
         new_file = File(name)
         self.files[name] = new_file
         return new_file
+
+    def H5VL_python_file_open(self, name, flags, fapl_id, dxpl_id, req):
+        print('Opening file ' + name)
+        return self.files[name]
