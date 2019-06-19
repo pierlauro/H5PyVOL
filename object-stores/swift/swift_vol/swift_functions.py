@@ -33,15 +33,18 @@ conn = swift_connect()
 def swift_object_upload(container, obj_name, obj):
 	container.replace('/','\\')
 	conn.put_container(container) ## TODO move out (in group declaration?)
+	buf = BytesIO()
+	np.save(buf, obj)
+	buf.seek(0)
 	conn.put_object(
 		container,
 		obj_name,
-        contents=BytesIO(obj), # TODO use numpy.save
-    )
+		contents=buf.read()
+	)
 
 def swift_object_download(container, sciobj_name):
 	container.replace('/','\\')
 	res, obj=conn.get_object(container,sciobj_name)
-	dtype='int32' ## TODO remove
-	sciobj_dst=np.frombuffer(obj,dtype=dtype) # TODO use numpy.load
-	return sciobj_dst
+	buf = BytesIO(obj)
+	return np.load(buf, allow_pickle=False)
+
