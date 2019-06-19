@@ -13,6 +13,7 @@ main:
 install-shared:
 	# http://codechunks.org/blog/2012/10/24/a-makefile-for-the-simplest-shared-library/
 	gcc -I/usr/include/python3.6m -I/usr/include/mpich -Isrc/c src/c/*.c -lpython3.6m -lhdf5 -lm -lrt -shared -Wl,-soname,libpyvol.so.1 -fPIC -O3 -g -o libpyvol.so.1
+	rm -f /usr/lib/libpyvol*
 	cp libpyvol.so.1 /usr/lib/
 	ln -s /usr/lib/libpyvol.so.1 /usr/lib/libpyvol.so
 	mkdir -p /usr/include/pyvol
