@@ -24,7 +24,7 @@ WORKDIR hdf5
 # Configuring, compiling and installing hdf lib
 RUN ./autogen.sh
 
-RUN ./configure --prefix=$PWD/build #--enable-parallel
+RUN ./configure --prefix=$PWD/build --enable-parallel
 
 RUN make -j `nproc` && make install
 

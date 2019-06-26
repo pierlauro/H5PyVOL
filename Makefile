@@ -8,7 +8,7 @@ copy-python:
 	cp -r examples/python_vol build/
 
 main:
-	gcc -I/usr/include/python3.6m -I/usr/include/mpich -I/usr/include/pyvol examples/vol.c  -lpython3.6m -lhdf5 -lm -lrt -lpyvol -o build/vol
+	h5pcc -I/usr/include/python3.6m -I/usr/include/mpich -I/usr/include/pyvol examples/vol.c  -lpython3.6m -lhdf5 -lm -lrt -lpyvol -o build/vol
 
 install-shared:
 	# http://codechunks.org/blog/2012/10/24/a-makefile-for-the-simplest-shared-library/
@@ -20,7 +20,7 @@ install-shared:
 	cp src/c/*h /usr/include/pyvol
 
 test-native:
-	gcc -I/usr/include/python3.6m -I/usr/include/mpich -I/usr/include/pyvol test/test_native.c -lpython3.6m -lhdf5 -lm -lrt -lpyvol -o build/test
+	h5pcc -I/usr/include/python3.6m -I/usr/include/mpich -I/usr/include/pyvol test/test_native.c -lpython3.6m -lhdf5 -lm -lrt -lpyvol -o build/test
 
 copy-swift:
 	mkdir -p build
