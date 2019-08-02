@@ -34,7 +34,7 @@ make
 ./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
 ```
 
-- With Makefile (NB: review include paths in the Makefile)
+- With Makefile (NB: review include paths and install path in the Makefile)
 ```bash
 make &&
 make install &&
