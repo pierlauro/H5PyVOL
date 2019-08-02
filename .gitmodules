@@ -1,3 +1,7 @@
 [submodule "submodules/hdf5"]
 	path = submodules/hdf5
 	url = https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git
+
+[submodule "submodules/h5part"]
+	path = submodules/h5part
+	url = https://github.com/pierlauro/h5part
