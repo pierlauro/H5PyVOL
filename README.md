@@ -36,7 +36,9 @@ make
 
 - With Makefile (NB: review include paths in the Makefile)
 ```bash
-make
+make &&
+make install &&
+make apps
 cd build
 ./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
 ```
