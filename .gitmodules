@@ -5,3 +5,7 @@
 [submodule "submodules/h5part"]
 	path = submodules/h5part
 	url = https://github.com/pierlauro/h5part
+
+[submodule "submodules/vpic-io"]
+	path = submodules/vpic-io
+	url = https://github.com/pierlauro/vpic-io
