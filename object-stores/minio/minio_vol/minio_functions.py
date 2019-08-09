@@ -29,10 +29,11 @@ except BucketAlreadyExists as err:
 def object_upload(name, obj):
 	buf = BytesIO()
 	numpy.save(buf, obj)
+	buf.seek(0)
 	tag = MINIO_CLIENT.put_object(BUCKET, name, buf, len(buf.getbuffer()))
 	return tag
 
 def object_download(name):
-	buf = BytesIO(MINIO_CLIENT.get_object(BUCKET, name))
+	buf = BytesIO(MINIO_CLIENT.get_object(BUCKET, name).data)
 	buf.seek(0)
 	return numpy.load(buf, allow_pickle=False)
