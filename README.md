@@ -25,20 +25,20 @@ In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/m
 
 In both cases (local or containerized environment), the CPyVol module needs to be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
 
-- With Cmake
-```bash
-mkdir build
-cd build
-cmake ..
-make
-./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
-```
-
 - With Makefile (NB: review include paths and install path in the Makefile)
 ```bash
 make &&
 make install &&
 make apps
 cd build
+./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
+```
+
+- With Cmake (outdated - need a manual adaptation)
+```bash
+mkdir build
+cd build
+cmake ..
+make
 ./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
 ```
