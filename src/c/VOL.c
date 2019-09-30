@@ -113,9 +113,6 @@ void* H5VL_python_file_create(const char *name, unsigned flags, hid_t fcpl_id, h
 	char *method_name = "H5VL_python_file_create";
 	PyObject *ret = PyObject_CallMethod(VOL_class, method_name, "slllll", name, flags, fcpl_id, fapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
@@ -123,9 +120,6 @@ void* H5VL_python_file_open(const char *name, unsigned flags, hid_t fapl_id, hid
 	char *method_name = "H5VL_python_file_open";
 	PyObject *ret = PyObject_CallMethod(VOL_class, method_name, "sllll", name, flags, fapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
@@ -137,9 +131,6 @@ void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, c
 	char *method_name = "H5VL_python_group_create";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, gcpl_id, gapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
@@ -147,9 +138,6 @@ void* H5VL_python_group_open(void *obj, const H5VL_loc_params_t *loc_params, con
 	char *method_name = "H5VL_python_group_open";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lslll", loc_params, name, gapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
@@ -161,9 +149,6 @@ void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
 	char *method_name = "H5VL_python_dataset_create";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lsllll", loc_params, name, dcpl_id, dapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
@@ -171,9 +156,6 @@ void* H5VL_python_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, c
 	char *method_name = "H5VL_python_dataset_open";
 	PyObject *ret = PyObject_CallMethod(obj, method_name, "lslll", loc_params, name, dapl_id, dxpl_id, req);
 	PyErr_Print();
-	if(ret == NULL){
-		return NULL;
-	}
 	return ret;
 }
 
