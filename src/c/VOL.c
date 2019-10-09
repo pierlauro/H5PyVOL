@@ -192,3 +192,14 @@ void initialize_vol_class(const char* module_name, const char* class_name){
 	VOL_class = py_get_class(module, class_name);
 }
 
+/*---------------------------------------------------------------------------*/
+ PLUGIN DEFINITION
+/*---------------------------------------------------------------------------*/
+H5PL_type_t H5PLget_plugin_type(void) {
+    return H5PL_TYPE_VOL;
+}
+
+const void *H5PLget_plugin_info(void) {
+    return &H5VL_python_cls_g;
+}
+/*---------------------------------------------------------------------------*/
