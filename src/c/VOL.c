@@ -4,12 +4,12 @@ PyObject* VOL_class;
 
 /* Generic Python VOL connector class struct */
 const H5VL_class_t H5VL_python_cls_g = {
-	0,			/* version	*/
-	500,			/* value		*/
-	PyHDFVol,		/* name		 */
+	0,			/* version */
+	500,			/* value */
+	PyHDFVol,		/* name	*/
 	0,			/* capability flags */
-	H5VL_pyvol_init,			/* initialize */
-	NULL,			/* terminate	*/
+	H5VL_python_init,	/* initialize */
+	H5VL_python_term,	/* terminate */
 	{ /* info_cls */
 		(size_t)sizeof(H5VL_class_t),	/* info size	*/	// TODO adjust to proper size
 		NULL,			/* info copy	*/
@@ -192,13 +192,13 @@ void initialize_vol_class(const char* module_name, const char* class_name){
 	VOL_class = py_get_class(module, class_name);
 }
 
-static hbool_t H5VL_pyvol_init_g = 0;
+static hbool_t H5VL_python_init_g = 0;
 
-herr_t H5VL_pyvol_init(hid_t vipl_id){
+herr_t H5VL_python_init(hid_t vipl_id){
 	char *module_name = getenv(PyHDFVolModule), *class_name = getenv(PyHDFVolClass);
 
 	/* Check whether already initialized */
-	if(H5VL_pyvol_init_g == 1){
+	if(H5VL_python_init_g == 1){
 		fprintf(stderr, "attempting to initialize connector twice");
 		exit(-1);
 	}
@@ -207,8 +207,12 @@ herr_t H5VL_pyvol_init(hid_t vipl_id){
 	py_initialize();
 	/* Initializing VOL class */
 	initialize_vol_class(module_name, class_name);
-	H5VL_pyvol_init_g = 1;
+	H5VL_python_init_g = 1;
 	return 1;
+}
+
+herr_t H5VL_python_term(void){
+	py_finalize();
 }
 
 /*---------------------------------------------------------------------------

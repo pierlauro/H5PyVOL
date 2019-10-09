@@ -39,4 +39,5 @@ extern herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem
 extern herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req);
 
 extern void initialize_vol_class(const char* module_name, const char* class_name);
-extern herr_t H5VL_pyvol_init(hid_t vipl_id);
+extern herr_t H5VL_python_init(hid_t vipl_id);
+extern herr_t H5VL_python_term(void);
