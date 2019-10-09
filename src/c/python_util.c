@@ -28,7 +28,7 @@ PyObject* py_import_module(const char *name){
 	// Import a Python module
 	PyObject* module = PyImport_ImportModule(name);
 	if(module == NULL){
-		printf("Python module %s import failed", name);
+		fprintf(stderr, "Python module %s import failed", name);
 		exit(1);
 	}
 	return module;

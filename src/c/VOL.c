@@ -8,7 +8,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 	500,			/* value		*/
 	"PythonVOL",			/* name		 */
 	0,			/* capability flags */
-	NULL,			/* initialize */
+	H5VL_pyvol_init,			/* initialize */
 	NULL,			/* terminate	*/
 	{ /* info_cls */
 		(size_t)sizeof(H5VL_class_t),	/* info size	*/	// TODO adjust to proper size
@@ -190,6 +190,25 @@ void initialize_vol_class(const char* module_name, const char* class_name){
 	// TODO check that class is instance of CPyVOL's VOL
 	PyObject* module = py_import_module(module_name);
 	VOL_class = py_get_class(module, class_name);
+}
+
+static hbool_t H5VL_pyvol_init_g = 0;
+
+herr_t H5VL_pyvol_init(hid_t vipl_id){
+	char *module_name = getenv("PYVOL_MODULE"), *class_name = getenv("PYVOL_CLASS");
+
+	/* Check whether already initialized */
+	if(H5VL_pyvol_init_g == 1){
+		fprintf(stderr, "attempting to initialize connector twice");
+		exit(-1);
+	}
+
+	/* Initializing python interpreter */
+	py_initialize();
+	/* Initializing VOL class */
+	initialize_vol_class(module_name, class_name);
+	H5VL_pyvol_init_g = 1;
+	return 1;
 }
 
 /*---------------------------------------------------------------------------
