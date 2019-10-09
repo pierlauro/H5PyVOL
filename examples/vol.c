@@ -7,26 +7,8 @@
 void write_read(int num_datasets, hid_t acc);
 
 int main(int argc, char *argv[]){
-	if(argc != 3){
-		printf("Please, specify python module and vol class.\nUsage: %s <python_VOL_module> <python_VOL_class>\n", argv[0]);
-		exit(1);
-	}
-
-	py_initialize();
-	const char *module_name = argv[1];
-	const char *class_name = argv[2];
-	initialize_vol_class(module_name, class_name);
-	
-	hid_t fapl = H5Pcreate(H5P_FILE_ACCESS);
-	hid_t vol_id = H5VLregister_connector(&H5VL_python_cls_g, H5P_DEFAULT);
 	hid_t acc = H5Pcreate(H5P_FILE_ACCESS);
-	H5VL_python_fapl_t fa;
-	fa.comm = MPI_COMM_WORLD;
-	fa.info = MPI_INFO_NULL;
-	H5Pset_vol(acc, vol_id, &fapl);
-
 	write_read(1001, acc);
-
 	py_finalize();
 	return 0;
 }

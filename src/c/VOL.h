@@ -7,6 +7,10 @@
 #include "datatypes_util.h"
 #include "python_util.h"
 
+#define PyHDFVol "PyHDFVol"
+#define PyHDFVolModule "PyHDFVolModule"
+#define PyHDFVolClass "PyHDFVolClass"
+
 typedef struct H5VL_python_fapl_t {
     MPI_Comm    comm; /*communicator*/
     MPI_Info    info; /*file information*/

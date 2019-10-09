@@ -31,14 +31,19 @@ make &&
 make install &&
 make apps
 cd build
-./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
+export HDF5_VOL_CONNECTOR='PyHDFVol'
+export PyHDFVolModule=python_vol
+export PyHDFVolClass=VOL
+./vol
 ```
 
 - With Cmake (outdated - need a manual adaptation)
 ```bash
 mkdir build
 cd build
-cmake ..
-make
-./vol python_vol VOL # Usage: ./vol <python_module> <python_class>
+cmake .. && make
+export HDF5_VOL_CONNECTOR='PyHDFVol'
+export PyHDFVolModule=python_vol
+export PyHDFVolClass=VOL
+./vol
 ```

@@ -6,7 +6,7 @@ PyObject* VOL_class;
 const H5VL_class_t H5VL_python_cls_g = {
 	0,			/* version	*/
 	500,			/* value		*/
-	"PythonVOL",			/* name		 */
+	PyHDFVol,		/* name		 */
 	0,			/* capability flags */
 	H5VL_pyvol_init,			/* initialize */
 	NULL,			/* terminate	*/
@@ -195,7 +195,7 @@ void initialize_vol_class(const char* module_name, const char* class_name){
 static hbool_t H5VL_pyvol_init_g = 0;
 
 herr_t H5VL_pyvol_init(hid_t vipl_id){
-	char *module_name = getenv("PYVOL_MODULE"), *class_name = getenv("PYVOL_CLASS");
+	char *module_name = getenv(PyHDFVolModule), *class_name = getenv(PyHDFVolClass);
 
 	/* Check whether already initialized */
 	if(H5VL_pyvol_init_g == 1){
