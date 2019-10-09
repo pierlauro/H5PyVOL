@@ -1,6 +1,8 @@
-#include "VOL.h"
 #include "timing.h"
 
+#include <hdf5.h>
+#include <math.h>
+#include <stdlib.h>
 #include <H5Ppublic.h>
 #include <H5Spublic.h>
 
@@ -9,7 +11,6 @@ void write_read(int num_datasets, hid_t acc);
 int main(int argc, char *argv[]){
 	hid_t acc = H5Pcreate(H5P_FILE_ACCESS);
 	write_read(1001, acc);
-	py_finalize();
 	return 0;
 }
 
