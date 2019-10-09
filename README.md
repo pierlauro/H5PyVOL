@@ -32,18 +32,18 @@ make install &&
 make apps
 cd build
 export HDF5_VOL_CONNECTOR='PyHDFVol'
-export PyHDFVolModule=python_vol
-export PyHDFVolClass=VOL
+export PyHDFVolModule='python_vol'
+export PyHDFVolClass='VOL'
 ./vol
 ```
 
-- With Cmake (outdated - need a manual adaptation)
+- With Cmake (version >= 3.15)
 ```bash
 mkdir build
 cd build
 cmake .. && make
 export HDF5_VOL_CONNECTOR='PyHDFVol'
-export PyHDFVolModule=python_vol
-export PyHDFVolClass=VOL
+export PyHDFVolModule='python_vol'
+export PyHDFVolClass='VOL'
 ./vol
 ```

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 project(PyVOL)
 
 set(CMAKE_C_STANDARD 11)
@@ -14,16 +14,12 @@ set(HDF5_USE_STATIC_LIBRARIES FALSE)
 set(HDF5_PREFER_PARALLEL TRUE)
 find_package(HDF5 REQUIRED C)
 if(NOT ${HDF5_IS_PARALLEL})
-	#message(FATAL_ERROR 'HDF5 is not parallel!')
 	message(STATUS "HDF5 is not parallel!")
 endif()
 
 find_package(MPI REQUIRED C)
 
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
-
-find_package(NumPy REQUIRED)
+find_package (Python3 COMPONENTS Interpreter Development NumPy)
 
 add_library(pyvol SHARED)
 
@@ -42,8 +38,8 @@ target_include_directories(pyvol
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
 	PRIVATE
-		${PYTHON_INCLUDE_DIRS}
-		${PYTHON_NUMPY_INCLUDE_DIR}
+		${Python3_INCLUDE_DIRS}
+		${Python3_NumPy_INCLUDE_DIRS}
 )
 
 target_link_libraries(pyvol
@@ -51,7 +47,7 @@ target_link_libraries(pyvol
 		MPI::MPI_C
 		${HDF5_LIBRARIES}
 	PRIVATE
-		${PYTHON_LIBRARIES}
+		${Python3_LIBRARIES}
 )
 
 file(COPY examples/python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
@@ -66,30 +62,14 @@ add_executable(vol examples/vol.c)
 
 target_link_libraries(vol
 	PUBLIC
-		pyvol
-	PRIVATE
-		${PYTHON_LIBRARIES}
+		${HDF5_LIBRARIES}
+		${Python3_LIBRARIES}
 )
 
 target_include_directories(vol
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
-		${PYTHON_INCLUDE_DIRS}
-		${CMAKE_CURRENT_LIST_DIR}/src/c
+		${Python3_INCLUDE_DIRS}
+		${Python3_NumPy_INCLUDE_DIRS}
 )
 
-add_executable(c-py examples/c-py.c)
-
-target_link_libraries(c-py
-	PUBLIC
-		pyvol
-	PRIVATE
-		${PYTHON_LIBRARIES}
-)
-
-target_include_directories(c-py
-	PUBLIC
-		${HDF5_INCLUDE_DIRS}
-		${PYTHON_INCLUDE_DIRS}
-		${CMAKE_CURRENT_LIST_DIR}/src/c
-)
