@@ -1,5 +1,6 @@
 #include <mpi.h>
 
+#include <H5PLextern.h>
 #include <H5Spublic.h>
 #include <H5VLpublic.h>
 
