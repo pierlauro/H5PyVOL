@@ -6,9 +6,15 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/CMake)
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 ")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O3 ")
 
 message(${CMAKE_MODULE_PATH})
+
+if(DEFINED ENV{HDF5_PLUGIN_PATH})
+	set(HDF5_PLUGIN_PATH $ENV{HDF5_PLUGIN_PATH})
+else()
+	set(HDF5_PLUGIN_PATH /usr/local/hdf5/lib/plugin)
+endif()
 
 set(HDF5_USE_STATIC_LIBRARIES FALSE)
 set(HDF5_PREFER_PARALLEL TRUE)
@@ -21,6 +27,8 @@ find_package(MPI REQUIRED C)
 
 find_package (Python3 COMPONENTS Interpreter Development NumPy)
 
+
+### LIBRARY
 add_library(pyvol SHARED)
 
 target_sources(pyvol
@@ -50,15 +58,16 @@ target_link_libraries(pyvol
 		${Python3_LIBRARIES}
 )
 
-file(COPY examples/python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 install(TARGETS pyvol
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib/static
+	LIBRARY DESTINATION ${HDF5_PLUGIN_PATH}
 )
 
+
+### EXAMPLE
 add_executable(vol examples/vol.c)
+
+file(COPY examples/python_vol DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(vol
 	PUBLIC

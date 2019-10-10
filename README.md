@@ -25,7 +25,9 @@ In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/m
 
 In both cases (local or containerized environment), the CPyVol module needs to be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
 
-- With Makefile (NB: review include paths and install path in the Makefile)
+The plugin gets installed in the path specified by the environment variable `HDF5_PLUGIN_PATH` (default `/usr/local/hdf5/lib/plugin/`). Please, make sure such path is writable.
+
+- With Makefile (NB: review include paths in the Makefile)
 ```bash
 make &&
 make install &&
@@ -41,7 +43,7 @@ export PyHDFVolClass='VOL'
 ```bash
 mkdir build
 cd build
-cmake .. && make
+cmake .. && make install
 export HDF5_VOL_CONNECTOR='PyHDFVol'
 export PyHDFVolModule='python_vol'
 export PyHDFVolClass='VOL'
