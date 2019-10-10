@@ -31,15 +31,15 @@ find_package (Python3 COMPONENTS Interpreter Development NumPy)
 ### LIBRARY
 add_library(pyvol SHARED)
 
+file(GLOB PYVOL_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/c/**.c)
+
 target_sources(pyvol
 	PUBLIC
-		${CMAKE_CURRENT_LIST_DIR}/src/c/VOL.h
+		${CMAKE_CURRENT_LIST_DIR}/src/c/PyVOL.h
 	PRIVATE
-		${CMAKE_CURRENT_LIST_DIR}/src/c/VOL.c
+		${PYVOL_SOURCES}
 		${CMAKE_CURRENT_LIST_DIR}/src/c/python_util.h
-		${CMAKE_CURRENT_LIST_DIR}/src/c/python_util.c
 		${CMAKE_CURRENT_LIST_DIR}/src/c/datatypes_util.h
-		${CMAKE_CURRENT_LIST_DIR}/src/c/datatypes_util.c
 )
 
 target_include_directories(pyvol

@@ -7,6 +7,8 @@
 #include "datatypes_util.h"
 #include "python_util.h"
 
+#define PyHDFVolVersion 1
+#define PyHDFVolValue 345
 #define PyHDFVol "PyHDFVol"
 #define PyHDFVolModule "PyHDFVolModule"
 #define PyHDFVolClass "PyHDFVolClass"
@@ -17,6 +19,7 @@ typedef struct H5VL_python_fapl_t {
 } H5VL_python_fapl_t;
 
 extern const H5VL_class_t H5VL_python_cls_g;
+extern PyObject* VOL_class;
 
 extern herr_t H5VL_python_object_close(void *grp, hid_t dxpl_id, void **req);
 
