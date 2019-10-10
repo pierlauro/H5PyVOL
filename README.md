@@ -9,29 +9,46 @@ NB: at moment, not all VOL functions are implemented. (All the capabilities of [
 ### Python part (module [CPyVOL](https://github.com/pierlauro/PyVOL/tree/master/src/python))
 In order to develop an easily pluggable python VOL, an [abstract data model](https://github.com/pierlauro/PyVOL/tree/master/src/python/CPyVOL/__init__.py) and one [basic example implementation](https://github.com/pierlauro/PyVOL/tree/master/examples/python_vol/__init__.py) are provided.
 
+### Containerized environment
 
-### C part
-Once implemented a python VOL, it is possible to bind the HDF library on it by simply calling the function [initialize_vol_class](https://github.com/pierlauro/PyVOL/blob/19cb12a7f663f2dd726acdf20daeb383250ff486/src/c/VOL.c#L177) as in the [provided example](https://github.com/pierlauro/PyVOL/blob/19cb12a7f663f2dd726acdf20daeb383250ff486/examples/vol.c#L10).
+The [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) contains instructions to build a container for testing purposes (shipped with all dependencies). All the project's docker images - including one client image for each supported object store - can be built by executing the script [docker-build.sh](https://github.com/pierlauro/PyVOL/blob/master/docker-build.sh).
 
-## Compile and try example
+## Install
 
-Before running the example, it is needed to install:
+#### Prerequisites
 - HDF5 (develop version)
-- MPI
-- Python3
+- MPI (recommended: mpich)
+- Python 3.7
 - NumPy
 
-In alternative, in the [docker folder](https://github.com/pierlauro/PyVOL/blob/master/docker) it is possible to build a container for testing purposes (shipped with HDF5, MPI, Python3 and NumPy). All the project's docker images - including one client image for each supported object store - can be built by executing the script [docker-build.sh](https://github.com/pierlauro/PyVOL/blob/master/docker-build.sh).
+The PyVOL plugin will be installed in the path specified by the environment variable `$HDF5_PLUGIN_PATH` if set, otherwise in the HDF5 plugin default directory (`/usr/local/hdf5/lib/plugin/`). Make sure the install path is writable.
 
-In both cases (local or containerized environment), the CPyVol module needs to be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
+#### Cmake install (version >= 3.15)
+```bash
+mkdir build &&
+cd build &&
+cmake .. &&
+make install
+```
 
-The plugin gets installed in the path specified by the environment variable `HDF5_PLUGIN_PATH` (default `/usr/local/hdf5/lib/plugin/`). Please, make sure such path is writable.
-
-- With Makefile (NB: review include paths in the Makefile)
+#### Makefile install (NB: review include paths in the Makefile)
 ```bash
 make &&
-make install &&
-make apps
+make install
+```
+The `CPyVol` module can be installed by following the instructions in the [python folder](https://github.com/pierlauro/PyVOL/blob/master/src/python).
+
+## Usage
+Once installed both plugin and python package, is it needed to set the following environment variables:
+- `HDF5_VOL_CONNECTOR='PyHDFVol'`
+- `PyHDFVolModule='package_name_of_developed_VOL'`
+- `PyHDFVolClass='class_name_of_developed_VOL'`
+
+### Demo
+[Example](https://github.com/pierlauro/PyVOL/tree/master/examples/vol.c) with an in-memory [simple example implementation](https://github.com/pierlauro/PyVOL/tree/master/examples/python_vol/__init__.py).
+
+#### After installation with Cmake (version >= 3.15)
+```bash
 cd build
 export HDF5_VOL_CONNECTOR='PyHDFVol'
 export PyHDFVolModule='python_vol'
@@ -39,11 +56,10 @@ export PyHDFVolClass='VOL'
 ./vol
 ```
 
-- With Cmake (version >= 3.15)
+#### After installation with Makefile
 ```bash
-mkdir build
+make apps
 cd build
-cmake .. && make install
 export HDF5_VOL_CONNECTOR='PyHDFVol'
 export PyHDFVolModule='python_vol'
 export PyHDFVolClass='VOL'
