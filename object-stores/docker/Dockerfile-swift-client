@@ -1,4 +1,4 @@
-FROM pyvol
+FROM h5pyvol
 
 # Swift client dependencies
 RUN pip3 install python-swiftclient

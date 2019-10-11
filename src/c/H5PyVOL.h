@@ -9,9 +9,9 @@
 
 #define PyHDFVolVersion 1
 #define PyHDFVolValue 345
-#define PyHDFVol "PyHDFVol"
-#define PyHDFVolModule "PyHDFVolModule"
-#define PyHDFVolClass "PyHDFVolClass"
+#define PyHDFVol "H5PyVOL"
+#define PyHDFVolModule "H5PyVOLModule"
+#define PyHDFVolClass "H5PyVOLClass"
 
 typedef struct H5VL_python_fapl_t {
     MPI_Comm    comm; /*communicator*/

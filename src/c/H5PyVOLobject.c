@@ -1,4 +1,4 @@
-#include "PyVOL.h"
+#include "H5PyVOL.h"
 
 herr_t H5VL_python_object_close(void *obj, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_object_close";

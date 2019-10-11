@@ -1,4 +1,4 @@
-#include "PyVOL.h"
+#include "H5PyVOL.h"
 
 PyObject* VOL_class;
 
@@ -97,7 +97,7 @@ const H5VL_class_t H5VL_python_cls_g = {
 static hbool_t H5VL_python_init_g = 0;
 
 void initialize_vol_class(const char* module_name, const char* class_name){
-	// TODO check that class is instance of CPyVOL's VOL
+	// TODO check that class is instance of H5PyVOL's VOL
 	PyObject* module = py_import_module(module_name);
 	VOL_class = py_get_class(module, class_name);
 }

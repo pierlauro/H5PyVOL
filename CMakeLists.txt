@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(PyVOL)
+project(H5PyVOL)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
@@ -29,20 +29,20 @@ find_package (Python3 COMPONENTS Interpreter Development NumPy)
 
 
 ### LIBRARY
-add_library(pyvol SHARED)
+add_library(h5pyvol SHARED)
 
-file(GLOB PYVOL_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/c/**.c)
+file(GLOB H5PYVOL_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/c/**.c)
 
-target_sources(pyvol
+target_sources(h5pyvol
 	PUBLIC
-		${CMAKE_CURRENT_LIST_DIR}/src/c/PyVOL.h
+		${CMAKE_CURRENT_LIST_DIR}/src/c/H5PyVOL.h
 	PRIVATE
-		${PYVOL_SOURCES}
+	${H5PYVOL_SOURCES}
 		${CMAKE_CURRENT_LIST_DIR}/src/c/python_util.h
 		${CMAKE_CURRENT_LIST_DIR}/src/c/datatypes_util.h
 )
 
-target_include_directories(pyvol
+target_include_directories(h5pyvol
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
 	PRIVATE
@@ -50,7 +50,7 @@ target_include_directories(pyvol
 		${Python3_NumPy_INCLUDE_DIRS}
 )
 
-target_link_libraries(pyvol
+target_link_libraries(h5pyvol
 	PUBLIC
 		MPI::MPI_C
 		${HDF5_LIBRARIES}
@@ -59,7 +59,7 @@ target_link_libraries(pyvol
 )
 
 
-install(TARGETS pyvol
+install(TARGETS h5pyvol
 	LIBRARY DESTINATION ${HDF5_PLUGIN_PATH}
 )
 

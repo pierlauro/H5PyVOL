@@ -22,10 +22,10 @@ RUN echo 'Host *' >> /root/.ssh/config
 RUN echo '    StrictHostKeyChecking no' >> /root/.ssh/config
 RUN chmod 400 /root/.ssh/config
 
-COPY . /PyVOL
+COPY . /H5PyVOL
 
-WORKDIR /PyVOL/src/python
+WORKDIR /H5PyVOL/src/python
 
 RUN python3 setup.py install
 
-WORKDIR /PyVOL
+WORKDIR /H5PyVOL

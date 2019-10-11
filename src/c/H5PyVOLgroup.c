@@ -1,4 +1,4 @@
-#include "PyVOL.h"
+#include "H5PyVOL.h"
 
 void* H5VL_python_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_group_create";

@@ -1,4 +1,4 @@
-#include "PyVOL.h"
+#include "H5PyVOL.h"
 
 void* H5VL_python_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_file_create";

@@ -1,4 +1,4 @@
-FROM pyvol
+FROM h5pyvol
 
 # Rados client dependencies
 RUN apt-get install -y python3-rados # python librados

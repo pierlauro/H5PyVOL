@@ -1,4 +1,4 @@
-from CPyVOL import H5Object, H5Dataset, H5Group, H5File, H5VOL
+from h5pyvol import H5Object, H5Dataset, H5Group, H5File, H5VOL
 from . import rados_functions
 
 class Object(H5Object):

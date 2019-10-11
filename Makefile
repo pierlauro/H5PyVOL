@@ -9,6 +9,7 @@ BUILD_DIR = $(CURDIR)/build
 
 COMPILE_INCLUDE_DIRS = -I$(HDF5_INCLUDE) -I$(MPICH_INCLUDE) -I$(PYTHON_INCLUDE) -I$(NUMPY_INCLUDE)
 
+LIB_NAME = libh5pyvol.so
 
 all: clean setup compile
 
@@ -27,10 +28,10 @@ main: setup
 
 compile: setup
 	# http://codechunks.org/blog/2012/10/24/a-makefile-for-the-simplest-shared-library/
-	gcc $(COMPILE_INCLUDE_DIRS) src/c/*.c -lpython3.7m -lhdf5 -lm -lrt -shared -Wl,-soname,libpyvol.so -fPIC -O3 -g -o $(BUILD_DIR)/libpyvol.so
+	gcc $(COMPILE_INCLUDE_DIRS) src/c/*.c -lpython3.7m -lhdf5 -lm -lrt -shared -Wl,-soname,$(LIB_NAME) -fPIC -O3 -g -o $(BUILD_DIR)/$(LIB_NAME)
 
 install:
-	cp $(BUILD_DIR)/libpyvol.so $(HDF5_PLUGIN_PATH)
+	cp $(BUILD_DIR)/$(LIB_NAME) $(HDF5_PLUGIN_PATH)
 
 copy-python: setup
 	cp -r examples/python_vol $(BUILD_DIR)
