@@ -3,7 +3,7 @@ from codecs import open
 from os import path
 
 setup(
-	name = 'H5PyVOL',
+	name = 'h5pyvol',
 
 	version = '1.0.dev0',
 
