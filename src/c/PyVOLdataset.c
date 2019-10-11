@@ -37,6 +37,29 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_
 	return 1;
 }
 
+
+herr_t H5VL_python_dataset_get(void *obj, H5VL_dataset_get_t get_type, hid_t dxpl_id, void **req, va_list arguments){
+	char *method_name = "H5VL_python_dataset_get";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "llll", get_type, dxpl_id, req, arguments);
+	PyErr_Print();
+	return 1;
+}
+
+herr_t H5VL_python_dataset_specific(void *obj, H5VL_dataset_specific_t specific_type, hid_t dxpl_id, void **req, va_list arguments){
+	char *method_name = "H5VL_python_dataset_specific";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "llll", specific_type, dxpl_id, req, arguments);
+	PyErr_Print();
+	return 1;
+}
+
+herr_t H5VL_python_dataset_optional(void *obj, hid_t dxpl_id, void **req, va_list arguments){
+	char *method_name = "H5VL_python_dataset_optional";
+	PyObject *ret = PyObject_CallMethod(obj, method_name, "lll", dxpl_id, req, arguments);
+	PyErr_Print();
+	return 1;
+}
+
+
 herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req){
 	return H5VL_python_object_close(dset, dxpl_id, req);
 }

@@ -35,6 +35,18 @@ class H5Group(H5Object, ABC):
 	def H5VL_python_dataset_open(self, loc_params, name: str, dapl_id, dxpl_id, req) -> H5Dataset:
 		pass
 
+	#@abstractmethod
+	def H5VL_python_dataset_get(self, get_type, dxpl_id, req, arguments):
+		pass
+
+	#@abstractmethod
+	def H5VL_python_dataset_specific(self, specific_type, dxpl_id, req, arguments):
+		pass
+
+        #@abstractmethod
+	def H5VL_python_dataset_optional(self, dxpl_id, req, arguments):
+		pass
+
 class H5File(H5Object, ABC):
 	@abstractmethod
 	def __init__(self, name: str):
@@ -48,6 +60,18 @@ class H5File(H5Object, ABC):
 	def H5VL_python_group_open(self, loc_params, name: str, gapl_id, dxpl_id, req) -> H5Group:
 		pass
 
+	#@abstractmethod
+	def H5VL_python_group_get(self, get_type, dxpl_id, req, arguments):
+		pass
+
+	#@abstractmethod
+	def H5VL_python_group_specific(self, specific_type, dxpl_id, req, arguments):
+		pass
+
+        #@abstractmethod
+	def H5VL_python_group_optional(self, dxpl_id, req, arguments):
+		pass
+
 class H5VOL(ABC):
 	@abstractmethod
 	def __init__(self):
@@ -59,4 +83,16 @@ class H5VOL(ABC):
 
 	@abstractmethod
 	def H5VL_python_file_open(self, name: str, flags, fapl_id, dxpl_id, req) -> H5File:
+		pass
+
+	#@abstractmethod
+	def H5VL_python_file_get(self, get_type, dxpl_id, req, arguments):
+		pass
+
+	#@abstractmethod
+	def H5VL_python_file_specific(self, specific_type, dxpl_id, req, arguments):
+		pass
+
+        #@abstractmethod
+	def H5VL_python_file_optional(self, dxpl_id, req, arguments):
 		pass

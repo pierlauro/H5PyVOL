@@ -25,24 +25,24 @@ const H5VL_class_t H5VL_python_cls_g = {
 		NULL			/* free_wrap_ctx */
 	},
 	{ /* attribute_cls */
-		NULL,			/* create	 */
-		NULL,			/* open		 */
-		NULL,			/* read		 */
-		NULL,			/* write		*/
-		NULL,			/* get		*/
-		NULL,			/* specific	 */
-		NULL,			/* optional	 */
-		H5VL_python_attribute_close			/* close		*/
+		H5VL_python_attribute_create,		/* create */
+		H5VL_python_attribute_open,		/* open */
+		H5VL_python_attribute_read,		/* read */
+		H5VL_python_attribute_write,		/* write */
+		H5VL_python_attribute_get,		/* get */
+		H5VL_python_attribute_specific,		/* specific */
+		H5VL_python_attribute_optional,		/* optional */
+		H5VL_python_attribute_close		/* close */
 	},
 	{ /* dataset_cls */
-		H5VL_python_dataset_create,			/* create	 */
-		H5VL_python_dataset_open,			/* open		 */
-		H5VL_python_dataset_read,			/* read		 */
-		H5VL_python_dataset_write,			/* write		*/
-		NULL,			/* get		*/
-		NULL,			/* specific	 */
-		NULL,			/* optional	 */
-		H5VL_python_dataset_close			/* close		*/
+		H5VL_python_dataset_create,		/* create */
+		H5VL_python_dataset_open,		/* open	*/
+		H5VL_python_dataset_read,		/* read */
+		H5VL_python_dataset_write,		/* write */
+		H5VL_python_dataset_get,		/* get */
+		H5VL_python_dataset_specific,		/* specific */
+		H5VL_python_dataset_optional,		/* optional */
+		H5VL_python_dataset_close		/* close */
 	},
 	{ /* datatype_cls */
 		NULL,			/* commit	 */
@@ -53,20 +53,20 @@ const H5VL_class_t H5VL_python_cls_g = {
 		H5VL_python_datatype_close			/* close		*/
 	},
 	{ /* file_cls */
-		H5VL_python_file_create,			/* create	 */
-		H5VL_python_file_open,			/* open		 */
-		NULL,			/* get		*/
-		NULL,			/* specific	 */
-		NULL,			/* optional	 */
-		H5VL_python_file_close			/* close		*/
+		H5VL_python_file_create,	/* create */
+		H5VL_python_file_open,		/* open	 */
+		H5VL_python_file_get,		/* get */
+		H5VL_python_file_specific,	/* specific */
+		H5VL_python_file_optional,	/* optional */
+		H5VL_python_file_close		/* close */
 	},
 	{ /* group_cls */
-		H5VL_python_group_create,			/* create	 */
-		H5VL_python_group_open,			/* open		 */
-		NULL,			/* get		*/
-		NULL,			/* specific	 */
-		NULL,			/* optional	 */
-		H5VL_python_group_close			/* close		*/
+		H5VL_python_group_create,	/* create */
+		H5VL_python_group_open,		/* open	*/
+		H5VL_python_group_get,		/* get */
+		H5VL_python_group_specific,	/* specific */
+		H5VL_python_group_optional,	/* optional */
+		H5VL_python_group_close		/* close */
 	},
 	{ /* link_cls */
 		NULL,			/* create	 */
@@ -95,6 +95,12 @@ const H5VL_class_t H5VL_python_cls_g = {
 };
 
 static hbool_t H5VL_python_init_g = 0;
+
+void initialize_vol_class(const char* module_name, const char* class_name){
+	// TODO check that class is instance of CPyVOL's VOL
+	PyObject* module = py_import_module(module_name);
+	VOL_class = py_get_class(module, class_name);
+}
 
 herr_t H5VL_python_init(hid_t vipl_id){
 	char *module_name = getenv(PyHDFVolModule), *class_name = getenv(PyHDFVolClass);
