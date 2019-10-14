@@ -78,6 +78,7 @@ target_link_libraries(vol
 target_include_directories(vol
 	PUBLIC
 		${HDF5_INCLUDE_DIRS}
+		${MPI_C_INCLUDE_DIRS}
 		${Python3_INCLUDE_DIRS}
 		${Python3_NumPy_INCLUDE_DIRS}
 )
