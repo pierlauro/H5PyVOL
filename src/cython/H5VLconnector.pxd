@@ -22,6 +22,9 @@ ctypedef long herr_t
 ctypedef long uint64_t
 ### /TO IMPORT
 
+cdef extern from "<H5VLconnector_passthru.h>":
+    pass
+
 cdef extern from "<H5VLconnector.h>":
     cdef const int H5VL_MAX_TOKEN_SIZE = 16
     ctypedef unsigned char H5VL_token_t[H5VL_MAX_TOKEN_SIZE];
