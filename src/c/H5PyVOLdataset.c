@@ -14,6 +14,7 @@ void* H5VL_python_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, c
 	return ret;
 }
 
+
 herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, void *buf, void **req){
 	char *method_name = "H5VL_python_dataset_read";
 	PyArrayObject_fields* array = (PyArrayObject_fields *)PyObject_CallMethod(dset, method_name, "lllll", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req);
@@ -24,12 +25,21 @@ herr_t H5VL_python_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_i
 }
 
 herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void *buf, void **req){
-	int rank = H5Sget_simple_extent_ndims(mem_space_id);
+	int rank = 1; //H5Sget_simple_extent_ndims(mem_space_id);
+	//fprintf(stderr,"RANK -> %d\n", rank);
 	hsize_t *dims = malloc(rank * sizeof(hsize_t)), *max_dims = malloc(rank * sizeof(hsize_t));
+	*dims = 100;
 	H5Sget_simple_extent_dims(mem_space_id, dims, max_dims);
 	// max_dims = -1 if size is not limited
+	//fprintf(stderr, "buf == NULL -> %d\n", buf == NULL);
+	//fprintf(stderr, "mem_type_id = %d\n", mem_type_id);
+	float *float_buf = (int*)buf;
+	for(int i = 0; i < 20; i++){
+		//fprintf(stderr, "float_buf[%d] = %f\n", i, float_buf[i]);
+	}
 	import_array();
-	PyObject* array = PyArray_SimpleNewFromData(rank, (npy_intp*)dims, get_numpy_type(mem_type_id), (void*) buf);
+	PyObject* array = PyArray_SimpleNewFromData(1, dims, get_numpy_type(H5T_NATIVE_FLOAT), (void*)buf);
+	PyErr_Print();
 
 	char *method_name = "H5VL_python_dataset_write";
 	PyObject *ret = PyObject_CallMethod(dset, method_name, "llllOl", mem_type_id, mem_space_id, file_space_id, xfer_plist_id, array, req);
@@ -38,10 +48,25 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_
 }
 
 
+
 herr_t H5VL_python_dataset_get(void *obj, H5VL_dataset_get_t get_type, hid_t dxpl_id, void **req, va_list arguments){
 	char *method_name = "H5VL_python_dataset_get";
-	PyObject *ret = PyObject_CallMethod(obj, method_name, "llll", get_type, dxpl_id, req, arguments);
-	PyErr_Print();
+	hid_t   *ret_id = va_arg(arguments, hid_t *);
+        *ret_id = H5P_DATASET_CREATE;
+
+	if(get_type == H5VL_DATASET_GET_SPACE){
+		hsize_t dims[1] = {100};
+		hid_t space = H5Screate_simple (1, dims, NULL);
+		*ret_id = space;
+	//	PyObject *dims_attribute = PyObject_GetAttr(obj, PyUnicode_FromString("dims"));
+	//	*ret_id = dims_attribute;
+	}else if(get_type == H5VL_DATASET_GET_TYPE){
+		*ret_id = H5Tcopy(H5T_NATIVE_FLOAT);
+		// todo wrap new datatype
+	}
+
+	//PyObject *ret = PyObject_CallMethod(obj, method_name, "llll", get_type, dxpl_id, req, arguments);
+	//PyErr_Print();
 	return 1;
 }
 
