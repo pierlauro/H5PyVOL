@@ -3,7 +3,7 @@ HDF5_PLUGIN_PATH ?= /usr/local/hdf5/lib/plugin/
 HDF5_INCLUDE   = /usr/include/hdf5
 MPICH_INCLUDE  = /usr/lib/x86_64-linux-gnu/mpich/include
 PYTHON_INCLUDE = /usr/include/python3.7m
-NUMPY_INCLUDE  = /usr/lib/python3/dist-packages/numpy/core/include
+NUMPY_INCLUDE  = /usr/local/lib/python3.7/dist-packages/numpy/core/include/
 
 BUILD_DIR = $(CURDIR)/build
 
