@@ -28,15 +28,12 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_
 	int rank = 1; //H5Sget_simple_extent_ndims(mem_space_id);
 	//fprintf(stderr,"RANK -> %d\n", rank);
 	hsize_t *dims = malloc(rank * sizeof(hsize_t)), *max_dims = malloc(rank * sizeof(hsize_t));
-	*dims = 100;
+	*dims =26214400;
 	H5Sget_simple_extent_dims(mem_space_id, dims, max_dims);
 	// max_dims = -1 if size is not limited
 	//fprintf(stderr, "buf == NULL -> %d\n", buf == NULL);
 	//fprintf(stderr, "mem_type_id = %d\n", mem_type_id);
 	float *float_buf = (int*)buf;
-	for(int i = 0; i < 20; i++){
-		//fprintf(stderr, "float_buf[%d] = %f\n", i, float_buf[i]);
-	}
 	import_array();
 	PyObject* array = PyArray_SimpleNewFromData(1, dims, get_numpy_type(H5T_NATIVE_FLOAT), (void*)buf);
 	PyErr_Print();
@@ -55,7 +52,7 @@ herr_t H5VL_python_dataset_get(void *obj, H5VL_dataset_get_t get_type, hid_t dxp
         *ret_id = H5P_DATASET_CREATE;
 
 	if(get_type == H5VL_DATASET_GET_SPACE){
-		hsize_t dims[1] = {100};
+		hsize_t dims[1] = {26214400};
 		hid_t space = H5Screate_simple (1, dims, NULL);
 		*ret_id = space;
 	//	PyObject *dims_attribute = PyObject_GetAttr(obj, PyUnicode_FromString("dims"));
@@ -86,5 +83,5 @@ herr_t H5VL_python_dataset_optional(void *obj, hid_t dxpl_id, void **req, va_lis
 
 
 herr_t H5VL_python_dataset_close(void *dset, hid_t dxpl_id, void **req){
-	return H5VL_python_object_close(dset, dxpl_id, req);
+	return 1; //H5VL_python_object_close(dset, dxpl_id, req);
 }

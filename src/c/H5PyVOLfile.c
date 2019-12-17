@@ -50,5 +50,5 @@ herr_t H5VL_python_file_optional(void *obj, hid_t dxpl_id, void **req, va_list a
 }
 
 herr_t H5VL_python_file_close(void *file, hid_t dxpl_id, void **req){
-	return H5VL_python_object_close(file, dxpl_id, req);
+	return 1; //H5VL_python_object_close(dset, dxpl_id, req);
 }

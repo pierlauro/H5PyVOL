@@ -36,5 +36,5 @@ herr_t H5VL_python_group_optional(void *obj, hid_t dxpl_id, void **req, va_list 
 }
 
 herr_t H5VL_python_group_close(void *grp, hid_t dxpl_id, void **req){
-	return H5VL_python_object_close(grp, dxpl_id, req);
+	return 1;
 }
