@@ -1,4 +1,11 @@
 #include "H5PyVOL.h"
+#include <stdlib.h>
+
+static int get_size(){
+	return atoi(getenv("DATASET_SIZE"));
+}
+
+static int SIZE;
 
 void* H5VL_python_dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name, hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req){
 	char *method_name = "H5VL_python_dataset_create";
@@ -28,7 +35,7 @@ herr_t H5VL_python_dataset_write(void *dset, hid_t mem_type_id, hid_t mem_space_
 	int rank = 1; //H5Sget_simple_extent_ndims(mem_space_id);
 	//fprintf(stderr,"RANK -> %d\n", rank);
 	hsize_t *dims = malloc(rank * sizeof(hsize_t)), *max_dims = malloc(rank * sizeof(hsize_t));
-	*dims =26214400;
+	*dims = (hsize_t)get_size();
 	H5Sget_simple_extent_dims(mem_space_id, dims, max_dims);
 	// max_dims = -1 if size is not limited
 	//fprintf(stderr, "buf == NULL -> %d\n", buf == NULL);
@@ -52,7 +59,7 @@ herr_t H5VL_python_dataset_get(void *obj, H5VL_dataset_get_t get_type, hid_t dxp
         *ret_id = H5P_DATASET_CREATE;
 
 	if(get_type == H5VL_DATASET_GET_SPACE){
-		hsize_t dims[1] = {26214400};
+		hsize_t dims[1] = {(hsize_t)get_size()};
 		hid_t space = H5Screate_simple (1, dims, NULL);
 		*ret_id = space;
 	//	PyObject *dims_attribute = PyObject_GetAttr(obj, PyUnicode_FromString("dims"));

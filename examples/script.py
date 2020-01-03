@@ -1,7 +1,7 @@
 import h5py
 import numpy as np
 import time
-
+import os
 #from dataclay import api
 
 
@@ -13,8 +13,8 @@ except:
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
-iterations = 10
-size = 100
+iterations = 1
+size = int(os.getenv("DATASET_SIZE"))
 
 array = np.arange(size, dtype='f4')
 
