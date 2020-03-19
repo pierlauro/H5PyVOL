@@ -121,7 +121,7 @@ class H5File(ABC):
 		pass
 
 	@abstractmethod
-	def H5VL_python_dataset_create(self, loc_params, name, gcpl_id, gapl_id, dxpl_id, req) -> H5Group:
+	def H5VL_python_dataset_create(self, loc_params, name, gcpl_id, gapl_id, dxpl_id, req) -> H5Dataset:
 		pass
 
 ```
@@ -177,9 +177,26 @@ After setting the environment variable `H5PyVOLClass='InMemoryVOL'` we're good t
 
 NB: the library expects the `in_memory_vol` package folder to be (or be linked) in the same folder you're executing your app into.
 
-#### H5PyVOL: internal structure
+#### H5PyVOL shared library: internal structure
+The HDF library is expecting a VOL connector to be compiled as HDF plugin (basically a shared library, technical details [here](https://portal.hdfgroup.org/display/HDF5/HDF5+VOL+Connector+Authors+Guide)). As we added the `H5PYVOL VOL CONNECTOR` additional layer, connector developers are not expected to take care of that. This section is just for people wanting to take a look at the internals.
+
+The [h5pyvol shared library](https://github.com/pierlauro/H5PyVOL/tree/master/src/c) is a HDF plugin allowing developers to plug connectors built upon the overmentioned Python module. Its main purpose is handling the interaction between HDF5 apps and user-defined connectors: at HDF lib loading time, it programmatically initializes a Python interpreter to be used for transparently forwarding API calls; at dataset read/write time – instead – it takes care of translating native buffers and numpy arrays into the relative counterparts through the native C-Python interface.
+
+As the library was experimental, there are some important details to take in mind in case a more stable version will be needed in the future. Things to improve:
+- Garbage collecting (ATM datasets memory is not freed)
+- Managing all types (ATM the library need to be compiled with a specific datasets' expected type)
+- Managing all sizes (ATM the library need to be compiled with a specific datasets' expected size)
+
+#### Miscellaneous
+- In the [object-stores](https://github.com/pierlauro/H5PyVOL/tree/master/object-stores) folder it is possible to find basic connectors for dataClay, Ceph Rados, Minio, OpenIO (same interface than Minio) and Swift.
+- In the [submodules](https://github.com/pierlauro/H5PyVOL/tree/master/submodules) folder, it is possible to find two submodules containing H5Part and VPIC-IO readapted to use H5PyVOL (first used benchmarks - then discarded).
+- Containers: it is possible to look into the [docker folder](https://github.com/pierlauro/H5PyVOL/tree/master/docker) for building containers with H5PyVOL built-in (careful with library versions in Dockerfiles).
 
 #### FAQ
 > Why did you not directly wrap h5py storage calls?
 
 It would have been much easier and I would have really liked to do that, but that way - unfortunately - custom connectors would just work with python applications and HDF5's multi-language support would be lost.
+
+> Do you recommend to extend the existing library to have a more stable version?
+
+NO! Even I - the person that wrote it - would not to that. This library is the result of a dive into the darkness: when it was written there was no documentation at all about the components it interacts with and this is the reason of increased instability with new APIs. Writing this library from scratch following the same concepts and the [now existing] HDF5 VOL documentation would take anyone much less time and effort.
