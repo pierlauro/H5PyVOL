@@ -54,7 +54,7 @@ CLIENT --> H5PY --> HDF LIBRARY --> H5PYVOL VOL CONNECTOR --> CUSTOM PYTHON VOL 
 To create a CUSTOM PYTHON VOL CONNECTOR, it is just needed to use the APIs provided by the H5PYVOL VOL CONNECTOR.
 
 #### H5PyVOL: high-level overview
-From the user point of view, H5PyVOL can be simply intended as a library for writing custom python connectors. The h5pyvol pypi package is providing some simple interfaces to be filled in for implementing any new connector.
+From the user point of view, H5PyVOL can be simply intended as a library for writing custom python connectors. The [h5pyvol package](https://github.com/pierlauro/H5PyVOL/tree/master/src/python) is providing some simple interfaces to be filled in for implementing new connectors.
 
 To better understand why it is needed and how it works, let's build-up an example.
 
@@ -92,6 +92,92 @@ As H5PyVOL wants to provide an object-oriented way of implementing connectors, l
 ```
 
 That's it! H5PyVOL is exactly providing the over-mentioned interfaces ready to be filled in: creating a new connector simply means implementing the logic of the presented methods (with some additional parameters for metadata, properties, etc... - but that's not the point).
+
+#### H5PyVOL example: an in-memory connector
+The following example makes use of [h5pyvol package](https://github.com/pierlauro/H5PyVOL/tree/master/src/python) to implement a simple python in-memory connector supporting the 4 operations mentioned in the previous paragraph: a `File` object will keep a dictionary of named datasets, and each `Dataset` object will keep track of an array.
+
+
+The abstract classes `H5File` and `H5Dataset` need to be extended in order to provide a concrete implementation of the required methods. Let's look at the interfaces h5pyvol is expecting to be filled in:
+
+```PYTHON
+from abc import ABC, abstractmethod
+
+class H5Dataset(ABC):
+	@abstractmethod
+	def __init__(self, name):
+		pass
+
+	@abstractmethod
+	def H5VL_python_dataset_read(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req):
+		pass
+
+	@abstractmethod
+	def H5VL_python_dataset_write(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, buffer, req):
+		pass
+
+class H5File(ABC):
+	@abstractmethod
+	def __init__(self, name):
+		pass
+
+	@abstractmethod
+	def H5VL_python_dataset_create(self, loc_params, name, gcpl_id, gapl_id, dxpl_id, req) -> H5Group:
+		pass
+
+```
+
+Let's implement the connector by using the provided interfaces (for simplicity, we are ignoring most of the arguments and accepting arrays of any type and size):
+
+```Python
+class Dataset(H5Dataset):
+	def __init__(self, name):
+		self.name = name
+		self.array: []
+
+	def H5VL_python_dataset_read(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req):
+		print('Reading dataset ' + self.name + ' = ' + str(self.array))
+		return self.array
+
+	def H5VL_python_dataset_write(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, buffer, req):
+		print('Writing dataset ' + self.name + ' = ' + str(buffer))
+		self.array = buffer
+
+class File(H5File):
+	def __init__(self, name):
+		self.name = name
+		self.datasets: dict = {}
+
+	def H5VL_python_dataset_create(self, loc_params, name, gcpl_id, gapl_id, dxpl_id, req) -> Dataset:
+		dataset_name = self.name + '/' + name
+		print('Creating dataset ' + dataset_name)
+		dataset = Dataset(dataset_name)
+		self.datasets[dataset_name] = dataset
+		return dataset
+```
+
+The connector is ready! In order to let HDF5 use it, we just need to put it in a named package (e.g. `in_memory_vol`), and then set the following environment variables:
+- `HDF5_VOL_CONNECTOR='H5PyVOL'`: tells HDF5 to use the H5PyVOL bridge
+- `H5PyVOLModule='in_memory_vol'`: tells H5PyVOL bridge to use the in-memory connector
+
+There is just a little additional technical detail: as the package need to provide an entrypoint to create files, we also need to provide a concrete implementation of the basic `H5VOL class`:
+
+```Python
+class InMemoryVOL(H5VOL):
+	def __init__(self):
+		self.files: dict = {}
+
+	def H5VL_python_file_create(self, name, flags, fcpl_id, fapl_id, dxpl_id, req) -> H5File:
+		print('Creating file ' + name)
+		new_file = File(name)
+		self.files[name] = new_file
+		return new_file
+```
+
+After setting the environment variable `H5PyVOLClass='InMemoryVOL'` we're good to go!
+
+NB: the library expects the `in_memory_vol` package folder to be (or be linked) in the same folder you're executing your app into.
+
+#### H5PyVOL: internal structure
 
 #### FAQ
 > Why did you not directly wrap h5py storage calls?
