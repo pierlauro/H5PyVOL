@@ -8,7 +8,7 @@ This project has been developed in early 2019 when the virtual object layer was 
 
 Since then, many things have changed: in late February 2020 - together with the release of HDF5 1.12 - a [comprehensive official VOL documentation](https://portal.hdfgroup.org/display/HDF5/Virtual+Object+Layer#VirtualObjectLayer-documentation) has been published both for users and connector developers and [I guess] the current APIs are not going to be altered that much in the future.
 
-The following library has been successfully used with [HDF5 1.12-alpha0](https://forum.hdfgroup.org/t/hdf5-1-12-0-alpha0-snapshot-release/6300) , [h5py 2.10.0](https://github.com/h5py/h5py) and the python interpreter version 3.7.4.
+The following library has been successfully used with [HDF5 1.12-alpha0](https://forum.hdfgroup.org/t/hdf5-1-12-0-alpha0-snapshot-release/6300) , [h5py 2.10.0](https://github.com/h5py/h5py) and the python interpreter version 3.7.4 on Centos 7.
 
 As I am not associated in any way to HDF5 and I have just been a sporadic contributor to h5py, please refer to HDF Group and h5py developers if you have questions about APIs compatibility with new stable versions.
 
@@ -188,7 +188,7 @@ As the library was experimental, there are some important details to take in min
 - Managing all sizes (ATM the library need to be compiled with a specific datasets' expected size)
 
 #### Miscellaneous
-- In the [object-stores](https://github.com/pierlauro/H5PyVOL/tree/master/object-stores) folder it is possible to find basic connectors for dataClay, Ceph Rados, Minio, OpenIO (same interface than Minio) and Swift.
+- In the [object-stores](https://github.com/pierlauro/H5PyVOL/tree/master/object-stores) folder it is possible to find example apps (GET/PUT/FILTERING etc...) and - in the subfolders - basic connectors for dataClay, Ceph Rados, Minio, OpenIO (same interface than Minio) and Swift.
 - In the [submodules](https://github.com/pierlauro/H5PyVOL/tree/master/submodules) folder, it is possible to find two submodules containing H5Part and VPIC-IO readapted to use H5PyVOL (first used benchmarks - then discarded).
 - Containers: it is possible to look into the [docker folder](https://github.com/pierlauro/H5PyVOL/tree/master/docker) for building containers with H5PyVOL built-in (careful with library versions in Dockerfiles).
 
