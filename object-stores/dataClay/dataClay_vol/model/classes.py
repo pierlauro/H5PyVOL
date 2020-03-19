@@ -14,13 +14,32 @@ class Dataset(DataClayObject):
 
     @dclayMethod(_local=True, mem_type_id='int', mem_space_id='int', file_space_id='int', xfer_plist_id='int', req='int')
     def H5VL_python_dataset_read(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, req):
-        #print('Reading dataset ' + self.name + '=' + str(self.data))
         return self.data
 
     @dclayMethod(mem_type_id='int', mem_space_id='int', file_space_id='int', xfer_plist_id='int', buf='numpy.ndarray', req='int')
     def H5VL_python_dataset_write(self, mem_type_id, mem_space_id, file_space_id, xfer_plist_id, buf, req):
-        #print('Writing dataset ' + self.name + ' = ' + str(buf))
         self.data = buf
+
+    @dclayMethod(mod=int, return_="numpy.ndarray")
+    def filterdataset(self, mod):
+        array = self.data[()]
+        return array[array % mod == 0]
+
+    @dclayMethod(i=int, j=int, return_="numpy.ndarray")
+    def column(self, i, j):
+        array = self.data[()]
+        return array[i::j]
+
+    @dclayMethod(i=int, return_="numpy.ndarray")
+    def row(self, i):
+        array = self.data[()]
+        return array[0:i]
+
+    @dclayMethod(num=int, return_="numpy.ndarray")
+    def minimum(self, num):
+        array = self.data[()]
+        array = array[array < num]
+        return array
 
 
     @dclayMethod(dxpl_id='int', req='int')
@@ -91,3 +110,4 @@ class File(DataClayObject):
     @dclayMethod(dxpl_id='int', req='int')
     def H5VL_python_object_close(self, dxpl_id, req):
         pass
+
