@@ -32,7 +32,7 @@ time.sleep(150)
 start = current_milli_time()
 
 for i in range(0, iterations):
-    from h5app_ns.classes import Dataset
+    # Getting through dataClay APIs because we would need an additional wrapping of h5py to get directly a DataClayObject 
     dataset = api.DataClayObject.get_by_alias('file' + str(iterations) + str(i) + '/group/mydataset' + str(i))
 #    print(dataset.data[()][0])
 #    st =  current_milli_time()
