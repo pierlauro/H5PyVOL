@@ -1,3 +1,5 @@
+__This repository has been archived due to author's change of plans - look at HANDOVER.md for the details that have been given before archiving__
+
 # H5PyVOL
 
 This is a beta version of a generic Python virtual object layer (VOL) for HDF5. It is providing some easily implementable APIs to create new python VOLs.
